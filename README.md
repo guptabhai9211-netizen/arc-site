@@ -1,6 +1,7 @@
 # Frontend Jitti Project
 
-![Project Banner](https://via.placeholder.com/800x400?text=Frontend+Jitti+Project)
+![image](https://github.com/user-attachments/assets/8dbe0a54-b72a-467e-b142-09c75407fa22)
+
 
 ## 🚀 Overview
 
