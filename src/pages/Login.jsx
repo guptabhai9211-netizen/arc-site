@@ -173,7 +173,20 @@ function Login() {
 
       {/* Footer */}
       <footer className="text-center py-4 text-white text-sm mt-6">
-        Made with ❤️ by <span className="font-bold">JTTI</span> |
+        Made with ❤️ by <span className="font-bold">
+        
+         <a
+          href="https://www.instagram.com/viranshusingh055/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-300 hover:underline ml-1"
+        >
+          Viranshu
+        </a>
+        
+        
+        
+        </span> |
         <a
           href="https://www.instagram.com/jtti.in/"
           target="_blank"
