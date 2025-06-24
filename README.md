@@ -1,112 +1,44 @@
-# Frontend Jitti Project
+# Frontend JTTI
 
-![image](https://github.com/user-attachments/assets/8dbe0a54-b72a-467e-b142-09c75407fa22)
+This is the frontend for the JTTI website, built with React and Vite.
 
-
-## 🚀 Overview
-
-This is a modern React-based frontend project built with Vite, featuring a beautiful and responsive user interface. The project utilizes the latest web technologies and best practices to deliver an exceptional user experience.
-
-## ✨ Features
-
-- ⚡️ Built with React 19 and Vite 6
-- 🎨 Styled with Tailwind CSS
-- 🔄 Smooth animations with Framer Motion
-- 📱 Fully responsive design
-- 🔒 Secure authentication
-- 🎯 Modern routing with React Router
-- 📝 Form validation and handling
-- 🔔 Toast notifications
-- 🎭 Lottie animations support
-
-## 🛠️ Technologies Used
-
-- React 19
-- Vite 6
-- Tailwind CSS
-- Framer Motion
-- React Router DOM
-- Axios
-- React Toastify
-- Lottie React
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-
-- Node.js (Latest LTS version recommended)
+- Node.js (v16 or higher recommended)
 - npm or yarn
 
 ### Installation
-
 1. Clone the repository:
-```bash
-git clone [your-repository-url]
-cd frontend-jitti
-```
-
+   ```bash
+   git clone <repo-url>
+   cd fronetendJtti
+   ```
 2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-3. Start the development server:
+### Running the Development Server
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. Build for production:
-```bash
-npm run build
-# or
-yarn build
-```
+The app will be available at `http://localhost:5173` by default.
 
-## 📁 Project Structure
+## Project Structure
+- `src/` - Main source code directory
+- `public/` - Static assets
+- `index.html` - Main HTML file
 
-```
-frontend-jitti/
-├── src/              # Source files
-├── public/           # Static files
-├── node_modules/     # Dependencies
-├── index.html        # Entry HTML file
-├── vite.config.js    # Vite configuration
-├── package.json      # Project metadata and dependencies
-└── README.md         # Project documentation
-```
-
-## 🔧 Available Scripts
-
+## Scripts
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
 
-## 🌐 Deployment
-
-The project is configured for deployment on Vercel. The `vercel.json` configuration file is included in the project.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👥 Authors
-
-- Your Name - Initial work
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who have helped shape this project
-- Special thanks to the open-source community for the amazing tools and libraries
+## License
+MIT
