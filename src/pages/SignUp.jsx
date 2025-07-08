@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-function SignUp() {
+//last update thei june 2025 for ARC 
+function SignUp() { 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rollPrefix, setRollPrefix] = useState("NC");
   const [rollSuffix, setRollSuffix] = useState("");
-  const [adharNumber, setAdharNumber] = useState("");
+  // const [adharNumber, setAdharNumber] = useState("");
   const [course, setCourse] = useState("");
   const [months, setMonths] = useState("");
   const [timing, setTiming] = useState("");
@@ -19,27 +19,46 @@ function SignUp() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const courses = [
-    "Basic Computer", "DCA", "Advanced Excel", "Photoshop", "CorelDraw",
-    "Advaanced Basic", "ADC", "Typing English", "Typing Hindi",
-    "Web Development", "Web Design", "Tally Prime", "Excel", "ETEC"
-  ];
+   const courses = [
+  "BasicComputer",
+  "GraphicDesigning",
+  "WebDesigning",
+  "CAAD ",
+  "CCA ",
+  "ACA ",
+  "ADCA ",
+  "DigitalMarketing",
+  "Python",
+  "AdvExcel",
+  "Busy",
+  "Tally Prime",
+  "CCC "
+];
+
 
   // Load saved form data
-  useEffect(() => {
-    const savedForm = JSON.parse(localStorage.getItem("signupForm"));
-    if (savedForm) {
-      setName(savedForm.name || "");
-      setEmail(savedForm.email || "");
-      setRollPrefix(savedForm.rollPrefix || "NC");
-      setRollSuffix(savedForm.rollSuffix || "");
-      setAdharNumber(savedForm.adharNumber || "");
-      setCourse(savedForm.course || "");
-      setMonths(savedForm.months || "");
-      setTiming(savedForm.timing || "");
-      setPhone(savedForm.phone || "");
+             //ye filed update ki hai mene 
+             useEffect(() => {
+  const savedForm = JSON.parse(localStorage.getItem("signupForm"));
+  if (savedForm) {
+    const isValidPrefix = ["ARCM", "ARCB"].includes(savedForm.rollPrefix);
+
+    if (!isValidPrefix) {
+      localStorage.removeItem("signupForm"); // 🔥 Clear bad localStorage data
+      return;
     }
-  }, []);                        //ye filed update ki hai mene 
+
+    setName(savedForm.name || "");
+    setEmail(savedForm.email || "");
+    setRollPrefix(savedForm.rollPrefix);
+    setRollSuffix(savedForm.rollSuffix || "");
+    setCourse(savedForm.course || "");
+    setMonths(savedForm.months || "");
+    setTiming(savedForm.timing || "");
+    setPhone(savedForm.phone || "");
+  }
+}, []);
+
 
   const updateFormField = (field, value) => {
     const currentForm = JSON.parse(localStorage.getItem("signupForm")) || {};
@@ -51,7 +70,7 @@ function SignUp() {
       case "email": setEmail(value); break;
       case "rollPrefix": setRollPrefix(value); break;
       case "rollSuffix": setRollSuffix(value); break;
-      case "adharNumber": setAdharNumber(value); break;
+      // case "adharNumber": setAdharNumber(value); break;
       case "course": setCourse(value); break;
       case "months": setMonths(value); break;
       case "timing": setTiming(value); break;
@@ -66,17 +85,13 @@ function SignUp() {
     const fullRollNumber = rollPrefix + rollSuffix;
 
     if (
-      !name || !email || !fullRollNumber || !adharNumber ||
+      !name || !email || !fullRollNumber ||
       !course || !months || !timing || !phone || !photo
     ) {
       toast.error("Please fill in all the required fields.");
       return;
     }
-
-    if (!/^\d{12}$/.test(adharNumber)) {
-      toast.error("Aadhar number must be 12 digits.");
-      return;
-    }
+ 
 
     if (!/^\d{10}$/.test(phone)) {
       toast.error("Phone number must be 10 digits.");
@@ -97,7 +112,7 @@ function SignUp() {
     formData.append("name", name);
     formData.append("email", email);
     formData.append("rollNumber", fullRollNumber);
-    formData.append("adharNumber", adharNumber);
+    // formData.append("adharNumber", adharNumber);
     formData.append("phone", phone);
     formData.append("course", course);
     formData.append("months", months);
@@ -106,7 +121,7 @@ function SignUp() {
 
     setLoading(true);
     try {
-      const res = await axios.post("https://newportal.onrender.com/api/user/create", formData, {
+      const res = await axios.post("https://arc-portal-backend.onrender.com/api/user/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -122,7 +137,7 @@ function SignUp() {
       if (message) {
         if (message.toLowerCase().includes("aadhar")) {
           toast.error("Aadhar number already exists.");
-        } else if (message.toLowerCase().includes("roll")) {
+        }  if (message.toLowerCase().includes("roll")) {
           toast.error("Roll number already exists.");
         } else if (message.toLowerCase().includes("email")) {
           toast.error("Email already exists.");
@@ -151,7 +166,7 @@ function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#0C0950] p-6">
       <ToastContainer position="top-center" autoClose={3000} theme="colored" />
       {loading && (
         <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm">
@@ -160,7 +175,7 @@ function SignUp() {
       )}
       <div className="bg-white shadow-2xl rounded-xl p-8 w-full max-w-lg relative z-10">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-800 mb-2">Sign Up for JTTI Portal</h1>
+          <h1 className="text-3xl font-extrabold text-gray-800 mb-2">SIGNUP FOR ARC PORTAL</h1>
           <p className="text-gray-500">Create an account to access your dashboard</p>
         </div>
 
@@ -191,8 +206,8 @@ function SignUp() {
                 onChange={(e) => updateFormField("rollPrefix", e.target.value)}
                 className="w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
               >
-                <option value="NC">NC</option>
-                <option value="SN">SN</option>
+                <option value="NC">ARC</option>
+                {/* <option value="SN">ARCB</option> */}
               </select>
               <input
                 type="text"
@@ -206,7 +221,7 @@ function SignUp() {
           </div>
 
           {/* Aadhaar & Phone */}
-          {[{ label: "Aadhar Number", value: adharNumber, field: "adharNumber", type: "text", placeholder: "Enter 12-digit Aadhaar number" },
+          {[
             { label: "Phone Number", value: phone, field: "phone", type: "text", placeholder: "Enter 10-digit phone number" }]
             .map(({ label, value, field, type, placeholder }, i) => (
               <div key={i}>

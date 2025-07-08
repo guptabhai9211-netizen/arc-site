@@ -9,7 +9,7 @@ const AdminAnnouncementManager = () => {
   const [announcementExists, setAnnouncementExists] = useState(false);
 
   const token = localStorage.getItem("token");
-  const API_BASE = "https://newportal.onrender.com/admin/announcement";
+  const API_BASE = "https://arc-portal-backend.onrender.com/admin/announcement";
 
   const headers = {
     Authorization: `Bearer ${token}`,

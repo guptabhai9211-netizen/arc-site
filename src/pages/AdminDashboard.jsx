@@ -3,7 +3,10 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
+import Announcement from './../compoents/Announcement';
+import { getGreeting } from "../new/getGreeting.js";
+import { motion } from "framer-motion";
 
 function AdminDashboard() {
   // const navigate
@@ -12,7 +15,11 @@ function AdminDashboard() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingUser, setEditingUser] = useState(null);
- 
+   const [greeting, setGreeting] = useState({ text: "", icon: "" });
+
+   useEffect(() => {                         ///ye se last edit
+    setGreeting(getGreeting());
+  }, []);
 const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,6 +28,7 @@ const [formData, setFormData] = useState({
     course: "",
     batch: "",
     fee: "",
+    customText:"",
     photo: null,         // image ke liye
     certificate: null,   // certificate ke liye
     idCard: null,        // id card ke liye
@@ -47,19 +55,18 @@ const [formData, setFormData] = useState({
     }
 
     // Apply batch filter
-    if (selectedBatch) {
-      result = result.filter((user) => user.batch === selectedBatch);
-    }
+     if (selectedBatch) {
+  result = result.filter((user) => user.batch === selectedBatch);
+}
 
-    // Apply search filter
-    if (searchTerm) {
-      result = result.filter(
-        (user) =>
-          user.adharNumber.includes(searchTerm) ||
-          user.rollNumber.includes(searchTerm) ||
-          user.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+// Apply search filter by Gmail ID
+if (searchTerm) {
+  result = result.filter(
+    (user) =>
+      user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}
+
 
     setFilteredUsers(result);
 
@@ -82,7 +89,7 @@ const [formData, setFormData] = useState({
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://newportal.onrender.com/api/user/all");
+      const response = await axios.get("https://arc-portal-backend.onrender.com/api/user/all");
       setUsers(response.data.users);
       setFilteredUsers(response.data.users);
     } catch (error) {
@@ -93,7 +100,7 @@ const [formData, setFormData] = useState({
   // Delete user
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://newportal.onrender.com/api/user/delete/${id}`);
+      await axios.delete(`https://arc-portal-backend.onrender.com/api/user/delete/${id}`);
   
       toast.success("User deleted successfully");
       fetchUsers(); // Refresh user list
@@ -114,6 +121,7 @@ const [formData, setFormData] = useState({
       course: user.course || '',
       batch: user.batch || '',
       fee: user.fee || '',
+      customText:user.customText ||'',
       photo: user.photo || '', // Cloudinary या server URL
       certificate: user.certificate || '',
       idCard: user.idCard || '',
@@ -142,9 +150,10 @@ const handleSmartUpdate = async (id) => {
       form.append("course", formData.course);
       form.append("batch", formData.batch);
       form.append("fee", formData.fee);
+      form.append("customText", formData.customText);
 
       await axios.put(
-        `https://newportal.onrender.com/api/user/editFile/${id}`,
+        `https://arc-portal-backend.onrender.com/api/user/editFile/${id}`,
         form,
         {
           headers: {
@@ -155,7 +164,7 @@ const handleSmartUpdate = async (id) => {
       );
     } else {
       await axios.put(
-        `https://newportal.onrender.com/api/user/edit/${id}`,
+        `https://arc-portal-backend.onrender.com/api/user/edit/${id}`,
         {
           name: formData.name,
           email: formData.email,
@@ -164,6 +173,7 @@ const handleSmartUpdate = async (id) => {
           course: formData.course,
           batch: formData.batch,
           fee: formData.fee,
+          customText: formData.customText,
         },
         {
           headers: {
@@ -217,7 +227,32 @@ const handleSmartUpdate = async (id) => {
     <div className="">
     <div className="container mx-auto px-4 py-8 ">
       <ToastContainer />
-      <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>
+ {/* <h1 className="text-3xl fon
+ t-bold mb-8 text-center">Administrator Panel – Anil Upadhyay Sir</h1> */}
+  <div className="text-center mb-10">
+      {/* Title */}
+      <motion.h1
+        className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Administrator Panel – Anil Upadhyay Sir
+      </motion.h1>
+
+      {/* Animated Greeting */}
+      <motion.div
+        className="text-xl md:text-2xl font-semibold flex justify-center items-center gap-2"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      >
+        <span className="text-3xl">{greeting.icon}</span>
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+          {greeting.text}
+        </span>
+      </motion.div>
+    </div>
 
       <div className="mb-8 bg-blue-950 p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4 text-white">Student Statistics</h2>
@@ -240,16 +275,42 @@ const handleSmartUpdate = async (id) => {
       </div>
   {/* Create Quiz Button */}
   <button
-        onClick={() => navigate('/admin/create-quiz')}
-        className="bg-blue-800 text-white px-4 py-2 rounded"
+        onClick={() => navigate('/sinupfdskfjsdfjaskfjalkfj255565564fdsfasjdfkasjfkjasfkjaskfjsdfjasdfjaskfjasjfalsfjadskjfklasjfasjfoasejfewfsdfsijfasfjiofjwru328528r89werudofjdsiofjsdiofjsofja0sfjaslfdsjfhdsfjhsofhaoefewhfowerheworfhweroewhfewofrhwoewhaf0asofuwae0ofrhawnfoasfl')}
+        className="bg-yellow-500 text-white px-4 py-2 rounded"
+      >
+        Make Profile
+      </button>      {/* Filter Section */}
+  <button
+        onClick={() => navigate('/admin/createq=blue+ocoor+withaskjfakljkladsjf&rlz=1C1CHBD_enIN1138IN1138&oq=blue+ocoor+withaskjfakljkladsjf&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQABgNGIAEMgkIAhAAGA0YgAQyCQgDEAAYDRiABDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQyC')}
+        className="bg-[#725CAD] text-white px-4 py-2 rounded"
       >
         Create Quiz
       </button>      {/* Filter Section */}
+      <Link to= "/studentmangerjjfjasdskfjadklfjaslfjlklfjadsklfjfjaslfjlffjfkjlkjlsjfjfkjldfdfadkfjkldfjklfjasklfjklfjasklfjadkljfklfjjdklfjdkldfjsklfjadsklfjasklfjaklfjaskjfakljfasjfkladsjflasjfklajfklajflajfasfjkfljaf">
   <button
-        onClick={() => navigate('/admin/announcement')}
-        className="bg-green-800 text-white px-4 py-2 rounded"
+        // onClick={() => ')}
+        className="bg-red-800 text-white px-4 py-2 rounded"
+        >
+        Student Of the weak
+      </button>      {/* Filter Section */}
+        </Link>
+  <button
+        onClick={() => navigate('/admin/announcementadsjf&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQABgNGIAEMgkIAhAAGA0YgAQyCQgDEAAYDRiABDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQ')}
+        className="bg-[#FF6600] text-white px-4 py-2 rounded"
       >
         Create Announcement
+      </button>      {/* Filter Section */}
+  <button
+        onClick={() => navigate('/adminAnnouncementPageq=blue+ocoor+withaskjfakljkladsjf&rlz=1C1CHBD_enIN1138IN1138&oq=blue+ocoor+withaskjfakljkladsjf&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQABgNGIAEMgkIAhAAGA0YgAQyCQgDEAAYDRiAB')}
+        className="bg-blue-700 text-white px-4 py-2 rounded"
+      >
+        Home Page Announcement
+      </button>      {/* Filter Section */}
+  <button
+        onClick={() => navigate('/changeBDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQmvnmnsd,mfndsfnadskfniofjawiofaewjfpaewofjewofljdsfoadsjfodsifhasfhadsfjasndlfahdsfasnfkajsnkfndsfnadslfds')}
+        className="bg-green-800 text-white px-4 py-2 rounded"
+      >
+        Change Password
       </button>      {/* Filter Section */}
       <div className="mb-6 bg-white p-4 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-3">Filters</h3>
@@ -293,16 +354,18 @@ const handleSmartUpdate = async (id) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Search
-            </label>
-            <div className="flex">
-              <input
-                type="text"
-                placeholder=" Aadhar Number !"
-                className="flex-grow p-2 border rounded-l"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+  Search by Gmail
+</label>
+<div className="flex">
+  <input
+    type="text"
+    placeholder="Enter Gmail (e.g. user@gmail.com)"
+    className="flex-grow p-2 border rounded-l"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+ 
+
               <button
                 onClick={resetFilters}
                 className="bg-gray-500 text-white px-3 py-2 rounded-r hover:bg-gray-600"
@@ -322,13 +385,14 @@ const handleSmartUpdate = async (id) => {
               <th className="py-3 px-4 text-left">Name</th>
               <th className="py-3 px-4 text-left">Email</th>
               <th className="py-3 px-4 text-left">Roll No.</th>
-              <th className="py-3 px-4 text-left">Aadhar No.</th>
+              <th className="py-3 px-4 text-left">CustomText</th>
               <th className="py-3 px-4 text-left">Course</th>
               <th className="py-3 px-4 text-left">Batch</th>
               <th className="py-3 px-4 text-left">Fee</th>
+              {/* <th className="py-3 px-4 text-left">Fee</th> */}
               <th className="py-3 px-4 text-left">Images</th>
-              <th className="py-3 px-4 text-left">idCard</th>
-              <th className="py-3 px-4 text-left">certificate</th>
+              <th className="py-3 px-4 text-left">IdCard</th>
+              <th className="py-3 px-4 text-left">Certificate</th>
                             {/* <th className="py-3 px-4 text-left">Roll No.</th> */}
 
             </tr>
@@ -362,20 +426,33 @@ const handleSmartUpdate = async (id) => {
                     user.email
                   )}
                 </td>
-                <td className="py-3 px-4">
+       <td className="py-3 px-4">
+  {editingUser === user._id ? (
+    <input
+      type="text"
+      name="rollNumber"
+      value={formData.rollNumber}
+      onChange={handleChange}
+      className="p-1 border rounded"
+    />
+  ) : (
+    user && user.rollNumber ? `ARC${String(user.rollNumber).slice(2)}` : ''
+  )}
+</td>
+     {/* <td className="py-3 px-4">{user.adharNumber}</td> */}
+<td className="py-3 px-4">
                   {editingUser === user._id ? (
                     <input
-                      type="text"
-                      name="rollNumber"
-                      value={formData.rollNumber}
+                      type="customText"
+                      name="customText"
+                      value={formData.customText}
                       onChange={handleChange}
                       className="p-1 border rounded"
                     />
                   ) : (
-                    user.rollNumber
+                    user.customText
                   )}
                 </td>
-                <td className="py-3 px-4">{user.adharNumber}</td>
                 <td className="py-3 px-4">
                   {editingUser === user._id ? (
                     <select

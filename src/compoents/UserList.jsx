@@ -4,7 +4,7 @@ function UserList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("https://newportal.onrender.com/api/user/all")
+    fetch("https://arc-portal-backend.onrender.com/api/user/all")
       .then(response => response.json())
       .then(data => {
         if (data.success) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Announcement from "../compoents/Announcement"; // adjust path as needed
 
@@ -17,27 +17,26 @@ function Profile() {
     } else {
       setTimeout(() => {
         setUser(userInfo);
+        localStorage.setItem("selectedCourse", userInfo.course); // ✅ Save course for global use
         setIsLoading(false);
       }, 800);
     }
   }, [navigate]);
 
-  
   useEffect(() => {
     if (!user) return;
-  
+
     const fetchQuiz = async () => {
       try {
-        const res = await fetch(`https://newportal.onrender.com/admin/quiz/course/${user.course}`, {
+        const res = await fetch(`https://arc-portal-backend.onrender.com/admin/quiz/course/${user.course}`, {
           headers: {
             'Cache-Control': 'no-cache'
           }
         });
         const data = await res.json();
-  
-        // ✅ THIS will print in the browser console during rendering
+
         console.log("Fetched quiz data:", data);
-  
+
         if (data.isLive) {
           setQuiz(data.quiz);
           setQuizAvailable(true);
@@ -51,10 +50,10 @@ function Profile() {
         setQuizLoading(false);
       }
     };
-  
+
     fetchQuiz();
   }, [user]);
-  
+
   const handleQuizStart = () => {
     if (!quizAvailable || !quiz) return;
     navigate("/quiz", { state: { quiz, user } });
@@ -78,7 +77,7 @@ function Profile() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">JTTI STUDENT PROFILE</h1>
+            <h1 className="text-3xl font-bold text-gray-800">ARC STUDENT PROFILE</h1>
             <button
               onClick={handleQuizStart}
               disabled={!quizAvailable}
@@ -91,8 +90,7 @@ function Profile() {
               {quizLoading ? "Checking..." : quizAvailable ? "Start Quiz" : "Quiz Not Live"}
             </button>
           </div>
-          <Announcement/>
-
+          <Announcement />
 
           <div className="bg-white rounded-xl shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 sm:p-8 text-black">
@@ -130,10 +128,24 @@ function Profile() {
             <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-700 border-b pb-2">Personal Information</h3>
-                <DetailItem label="Roll Number" value={user.rollNumber} />
-                <DetailItem label="Aadhar Number" value={user.adharNumber} />
-                <DetailItem label="Course" value={user.course} />
+                {/* <DetailItem label="Roll Number" value={user.rollNumber} /> */}
+                <DetailItem
+  label="Roll Number"
+  value={user.rollNumber ? `ARC${String(user.rollNumber).slice(2)}` : ''}
+/>
+
+ <DetailItem
+  label="Course"
+  value={<span className="text-green-600">{user.course}</span>}
+/>
+
                 <DetailItem label="Phone Number" value={user.phone} />
+                {/* <DetailItem label="Marks obtained "  value={user.customText}  /> */}
+                <DetailItem
+  label="Marks obtained"
+  value={<span className="text-red-600">{user.customText}</span>}
+/>
+
               </div>
 
               <div className="space-y-4">
@@ -143,7 +155,7 @@ function Profile() {
                   value={user.fee}
                   valueClass={user.fee === "Paid" ? "text-green-600 font-semibold" : "text-red-600 font-semibold"}
                 />
-                <DetailItem label="Months" value={user.months} />
+                <DetailItem label="Starting Months" value={user.months} />
                 <DetailItem label="Class Timing" value={user.timing} />
               </div>
 

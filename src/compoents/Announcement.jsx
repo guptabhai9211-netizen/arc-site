@@ -9,7 +9,7 @@ function Announcement() {
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
-        const res = await fetch("https://newportal.onrender.com/admin/announcement/");
+        const res = await fetch("https://arc-portal-backend.onrender.com/admin/announcement/");
         const data = await res.json();
 
         if (data.success && data.message) {
