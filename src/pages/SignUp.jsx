@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//last update thei june 2025 for ARC 
-function SignUp() { 
+//last update thei june 2025 for ARC  
+function SignUp() {   //ye last edit ia julu 2025
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rollPrefix, setRollPrefix] = useState("NC");
@@ -130,7 +130,7 @@ function SignUp() {
       if (res.data.success) {
         toast.success("User registered successfully!");
         localStorage.removeItem("signupForm");
-        setTimeout(() => navigate("/welcome"), 2000);
+        setTimeout(() => navigate("/admin-dashboardBDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQmvnmnsd,mfndsfnadskfniofjawiofaewjfpaewofjewofljdsfoadsjfodsifhasfhadsfjasndlfahdsfasnfkajsnkfndsfnadslfds"), 2000);
       }
     } catch (error) {
       const message = error.response?.data?.message;
@@ -259,7 +259,7 @@ function SignUp() {
           },
           {
             label: "Timing", value: timing, field: "timing", options: [
-              "9-10 AM", "10-11 AM", "11-12 PM", "12-1 PM", "1-2 PM",
+             "8-9 AM", "9-10 AM", "10-11 AM", "11-12 PM", "12-1 PM", "1-2 PM",
               "2-3 PM", "3-4 PM", "4-5 PM", "5-6 PM", "6-7 PM", "7-8 PM", "8-9 PM"]
           }].map(({ label, value, field, options }, i) => (
             <div key={i}>

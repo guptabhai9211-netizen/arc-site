@@ -166,7 +166,7 @@ const Navbar = () => {
         🚀 Enroll Now for Summer Batch 2025 - Limited Seats Available!
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 bg-white ">
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
           <motion.div

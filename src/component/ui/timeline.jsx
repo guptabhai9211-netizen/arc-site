@@ -43,7 +43,7 @@ export const Timeline = ({ data = [] }) => {
               ARC Computer Institute, run by Sandarbhdeep Educational Foundation (SEF), is an ISO 9001:2015 certified institute registered under the Ministry of Corporate Affairs.
             </p>
             <p className="text-gray-600 text-base md:text-lg mb-4">
-              Founded by Anil Kumar, we aim to make quality computer education accessible to all through innovative teaching methods and industry-relevant curriculum.
+              Founded by Anil Upadhyay, we aim to make quality computer education accessible to all through innovative teaching methods and industry-relevant curriculum.
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
               <span className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
@@ -60,11 +60,11 @@ export const Timeline = ({ data = [] }) => {
 
           <motion.div
             whileHover={{ scale: 1.02 }}
-            className="relative h-64 md:h-170 rounded-xl overflow-hidden shadow-lg"
+            className="relative  h-full md:h-170 rounded-xl overflow-hidden shadow-lg"
           >
        <video
   src="/anil.mp4"
-  className="w-full h-full object-cover"
+  className="lg:w-full lg:h-full object-cover h-full w-full"
   autoPlay
   // controls
   // muted
@@ -77,7 +77,7 @@ export const Timeline = ({ data = [] }) => {
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
               <h3 className="text-white text-xl md:text-2xl font-semibold">
-                Director of the Arc Institute is Anil Upadhyay Sir
+               Founder and Director ARC Computer Institute
               </h3>
             </div>
           </motion.div>

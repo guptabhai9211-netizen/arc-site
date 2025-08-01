@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import Announcement from './../compoents/Announcement';
 import { getGreeting } from "../new/getGreeting.js";
 import { motion } from "framer-motion";
-
+//last edit filter set kran hai abb 
+//edit the custom months add the 
 function AdminDashboard() {
   // const navigate
   const navigate = useNavigate();
@@ -18,15 +19,17 @@ function AdminDashboard() {
    const [greeting, setGreeting] = useState({ text: "", icon: "" });
 
    useEffect(() => {                         ///ye se last edit
-    setGreeting(getGreeting());
+    setGreeting(getGreeting());  //yaha se edit hoga 2025 july
   }, []);
 const [formData, setFormData] = useState({
     name: "",
     email: "",
+    months: "",
+    phone:"",
     rollNumber: "",
     adharNumber: "",
     course: "",
-    batch: "",
+    timing: "",
     fee: "",
     customText:"",
     photo: null,         // image ke liye
@@ -55,15 +58,15 @@ const [formData, setFormData] = useState({
     }
 
     // Apply batch filter
-     if (selectedBatch) {
-  result = result.filter((user) => user.batch === selectedBatch);
+    if (selectedBatch) {
+  result = result.filter((user) => user.timing === selectedBatch);
 }
 
 // Apply search filter by Gmail ID
 if (searchTerm) {
   result = result.filter(
     (user) =>
-      user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      user.rollNumber && user.rollNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 }
 
@@ -73,12 +76,13 @@ if (searchTerm) {
     // Update available batches when course changes
     if (selectedCourse) {
       const batches = [
-        ...new Set(
-          users
-            .filter((user) => user.course === selectedCourse)
-            .map((user) => user.batch)
-        ),
-      ];
+  ...new Set(
+    users
+      .filter((user) => user.course === selectedCourse)
+      .map((user) => user.timing) // 👈 Use timing here
+  ),
+];
+
       setAvailableBatches(batches);
       setSelectedBatch(""); // Reset batch when course changes
     } else {
@@ -116,10 +120,12 @@ if (searchTerm) {
     setFormData({
       name: user.name || '',
       email: user.email || '',
+          months: user.months ||'',
+phone:user.phone || '',
       rollNumber: user.rollNumber || '',
       adharNumber: user.adharNumber || '',
       course: user.course || '',
-      batch: user.batch || '',
+      timing: user.batch || '',
       fee: user.fee || '',
       customText:user.customText ||'',
       photo: user.photo || '', // Cloudinary या server URL
@@ -145,10 +151,12 @@ const handleSmartUpdate = async (id) => {
       // Add regular fields
       form.append("name", formData.name);
       form.append("email", formData.email);
+       form.append("phone", formData.phone);
       form.append("rollNumber", formData.rollNumber);
       form.append("adharNumber", formData.adharNumber);
       form.append("course", formData.course);
-      form.append("batch", formData.batch);
+      form.append("months", formData.months);
+      form.append("timing", formData.timing);
       form.append("fee", formData.fee);
       form.append("customText", formData.customText);
 
@@ -168,10 +176,12 @@ const handleSmartUpdate = async (id) => {
         {
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
           rollNumber: formData.rollNumber,
           adharNumber: formData.adharNumber,
           course: formData.course,
-          batch: formData.batch,
+          months: formData.months,
+          timing: formData.timing,
           fee: formData.fee,
           customText: formData.customText,
         },
@@ -265,12 +275,22 @@ const handleSmartUpdate = async (id) => {
             <p className="text-gray-600">Active Courses</p>
             <p className="text-2xl font-bold">{availableCourses.length}</p>
           </div>
-          <div className="bg-purple-100 p-4 rounded-lg">
-            <p className="text-gray-600">Total Fees</p>
-            <p className="text-2xl font-bold">
-              ₹{users.reduce((sum, user) => sum + (parseInt(user.fee) || 0), 0)}
-            </p>
-          </div>
+           <div className="bg-white p-4 rounded-lg shadow">
+  <p className="text-sm text-gray-500 mb-1">Current Date & Time</p>
+  <div className="text-xl font-semibold text-[#0C0950] animate-pulse">
+    {new Date().toLocaleString('en-IN', {
+      weekday: 'long',   // e.g., "Thursday"
+      year: 'numeric',   // e.g., "2025"
+      month: 'long',     // e.g., "July"
+      day: 'numeric',    // e.g., "18"
+      hour: '2-digit',   // e.g., "11"
+      minute: '2-digit', // e.g., "45"
+      second: '2-digit', // e.g., "30"
+      hour12: true       // e.g., "AM/PM"
+    })}
+  </div>
+</div>
+
         </div>
       </div>
   {/* Create Quiz Button */}
@@ -332,34 +352,14 @@ const handleSmartUpdate = async (id) => {
               ))}
             </select>
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Batch
-            </label>
-            <select
-              value={selectedBatch}
-              onChange={(e) => setSelectedBatch(e.target.value)}
-              className="w-full p-2 border rounded"
-              disabled={!selectedBatch}
-            >
-              <option value="">All Batches</option>
-              {availableBatches.map((batch, index) => (
-                <option key={index} value={batch}>
-                  {batch}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-  Search by Gmail
+  Search by Roll No.
 </label>
 <div className="flex">
   <input
     type="text"
-    placeholder="Enter Gmail (e.g. user@gmail.com)"
+    placeholder="Roll No. Ex - 2501"
     className="flex-grow p-2 border rounded-l"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
@@ -377,211 +377,264 @@ const handleSmartUpdate = async (id) => {
         </div>
       </div>
 
-      {/* Users Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
-        <table className="min-w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 text-left">Name</th>
-              <th className="py-3 px-4 text-left">Email</th>
-              <th className="py-3 px-4 text-left">Roll No.</th>
-              <th className="py-3 px-4 text-left">CustomText</th>
-              <th className="py-3 px-4 text-left">Course</th>
-              <th className="py-3 px-4 text-left">Batch</th>
-              <th className="py-3 px-4 text-left">Fee</th>
-              {/* <th className="py-3 px-4 text-left">Fee</th> */}
-              <th className="py-3 px-4 text-left">Images</th>
-              <th className="py-3 px-4 text-left">IdCard</th>
-              <th className="py-3 px-4 text-left">Certificate</th>
-                            {/* <th className="py-3 px-4 text-left">Roll No.</th> */}
+    <div className="relative overflow-x-auto bg-white rounded-lg shadow max-h-[600px]">
+  <table className="min-w-full text-sm text-left text-gray-700">
+    <thead className="bg-gray-100 sticky top-0 z-10">
+      <tr>
+        <th className="py-3 px-4">Name</th>
+        <th className="py-3 px-4">Email</th>
+        <th className="py-3 px-4">Phone No</th>
+        <th className="py-3 px-4">Roll No.</th>
+        <th className="py-3 px-4">Custom Text</th>
+        <th className="py-3 px-4">Course</th>
+        <th className="py-3 px-4">Months</th>
+        <th className="py-3 px-4">Batch</th>
+        <th className="py-3 px-4">Fee</th>
+        <th className="py-3 px-4">Images</th>
+        <th className="py-3 px-4">IdCard</th>
+        <th className="py-3 px-4">Certificate</th>
+        <th className="py-3 px-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody className="overflow-x-auto">
+      {filteredUsers.map((user) => (
+        <>
+          <tr key={user._id} className="border-t hover:bg-gray-50">
+            <td className="py-3 px-4">{user.name}</td>
+            <td className="py-3 px-4">{user.email}</td>
+            <td className="py-3 px-4">{user.phone}</td>
+            <td className="py-3 px-4">
+              {user.rollNumber ? `ARC${String(user.rollNumber).slice(2)}` : ''}
+            </td>
+            <td className="py-3 px-4">{user.customText}</td>
+            <td className="py-3 px-4">{user.course}</td>
+            <td className="py-3 px-4">{user.months}</td>
+            <td className="py-3 px-4">{user.timing}</td>
+            <td className="py-3 px-4">{user.fee}</td>
+            <td className="py-3 px-4">
+              {user.photo ? (
+                <img src={user.photo} alt="Photo" className="w-10 h-10 object-cover rounded" />
+              ) : "No Photo"}
+            </td>
+            <td className="py-3 px-4">
+              {user.idCard ? (
+                <img src={user.idCard} alt="ID Card" className="w-10 h-10 object-cover rounded" />
+              ) : "No Photo"}
+            </td>
+            <td className="py-3 px-4">
+              {user.certificate ? (
+                <img src={user.certificate} alt="Certificate" className="w-10 h-10 object-cover rounded" />
+              ) : "No Photo"}
+            </td>
+            <td className="py-3 px-4 space-x-2">
+              {editingUser === user._id ? (
+                <button
+                  onClick={() => setEditingUser(null)}
+                  className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+                >
+                  Close
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleEdit(user)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(user._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+            </td>
+          </tr>
+          
+          {editingUser === user._id && (
+            <tr className="bg-gray-50">
+              <td colSpan={12} className="p-4">
+                <div className="overflow-x-auto">
+                  <div className="min-w-max space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Phone No</label>
+                        <input
+                          type="number"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Roll No.</label>
+                        <input
+                          type="text"
+                          name="rollNumber"
+                          value={
+                            formData.rollNumber
+                              ? `ARC${String(formData.rollNumber).slice(2)}`
+                              : ''
+                          }
+                          onChange={(e) => {
+                            const inputVal = e.target.value;
+                            const originalPrefix = formData.rollNumber?.slice(0, 2) || '';
+                            const newRoll = inputVal.startsWith('ARC')
+                              ? originalPrefix + inputVal.slice(3)
+                              : inputVal;
 
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user._id} className="border-t hover:bg-gray-50">
-                <td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    />
-                  ) : (
-                    user.name
-                  )}
-                </td>
-                <td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    />
-                  ) : (
-                    user.email
-                  )}
-                </td>
-       <td className="py-3 px-4">
-  {editingUser === user._id ? (
-    <input
-      type="text"
-      name="rollNumber"
-      value={formData.rollNumber}
-      onChange={handleChange}
-      className="p-1 border rounded"
-    />
-  ) : (
-    user && user.rollNumber ? `ARC${String(user.rollNumber).slice(2)}` : ''
-  )}
-</td>
-     {/* <td className="py-3 px-4">{user.adharNumber}</td> */}
-<td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <input
-                      type="customText"
-                      name="customText"
-                      value={formData.customText}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    />
-                  ) : (
-                    user.customText
-                  )}
-                </td>
-                <td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <select
-                      name="course"
-                      value={formData.course}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    >
-                      {availableCourses.map((course, index) => (
-                        <option key={index} value={course}>
-                          {course}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    user.course
-                  )}
-                </td>
-                <td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <input
-                      type="text"
-                      name="batch"
-                      value={formData.batch}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    />
-                  ) : (
-                    user.batch
-                  )}
-                </td>
-                <td className="py-3 px-4">
-                  {editingUser === user._id ? (
-                    <input
-                      type="number"
-                      name="fee"
-                      value={formData.fee}
-                      onChange={handleChange}
-                      className="p-1 border rounded"
-                    />
-                  ) : (
-                    `₹${user.fee}`
-                  )}
-                </td>
-                {/* //for file uplod ;// */}
-      {/* 📸 Photo column */}
-<td className="py-3 px-4">
-  {editingUser === user._id ? (
-    <input
-      type="file"
-      name="photo"
-      onChange={handleFileChange}
-      className="p-1 border rounded"
-    />
-  ) : (
-    user.photo ? <img src={user.photo} alt="Photo" className="w-10 h-10 object-cover rounded" /> : "No Photo"
-  )}
-</td>
+                            setFormData({ ...formData, rollNumber: newRoll });
+                          }}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Custom Text</label>
+                        <input
+                          type="text"
+                          name="customText"
+                          value={formData.customText}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+  <label className="block text-sm font-medium text-gray-700">Course</label>
+  <select
+    name="course"
+    value={formData.course}
+    onChange={handleChange}
+    className="p-2 border rounded w-full"
+  >
+    <option value="BasicComputer">BasicComputer</option>
+    <option value="GraphicDesigning">GraphicDesigning</option>
+    <option value="WebDesigning">WebDesigning</option>
+    <option value="CAAD">CAAD</option>
+    <option value="CCA">CCA</option>
+    <option value="ACA">ACA</option>
+    <option value="ADCA">ADCA</option>
+    <option value="DigitalMarketing">DigitalMarketing</option>
+    <option value="Python">Python</option>
+    <option value="AdvExcel">AdvExcel</option>
+    <option value="Busy">Busy</option>
+    <option value="Tally Prime">Tally Prime</option>
+    <option value="CCC">CCC</option>
+  </select>
+</div>
 
-{/* 🪪 ID Card column */}
-<td className="py-3 px-4">
-  {editingUser === user._id ? (
-    <input
-      type="file"
-      name="idCard"
-      onChange={handleFileChange}
-      className="p-1 border rounded"
-    />
-  ) : (
-    user.idCard ?  <img src={user.idCard} alt="idcard" className="w-10 h-10 object-cover rounded" /> : "No Photo"
-  )}
-  
-</td>
-
-{/* 📄 Certificate column */}
-<td className="py-3 px-4">
-  {editingUser === user._id ? (
-    <input
-      type="file"
-      name="certificate"
-      onChange={handleFileChange}
-      className="p-1 border rounded"
-    />
-  ) : (
-    user.certificate ?  <img src={user.certificate} alt="certificate" className="w-10 h-10 object-cover rounded" /> : "No Photo"
-  )}
-  
-</td>
-
-
-                   
-                <td className="py-3 px-4 space-x-2">
-                  {editingUser === user._id ? (
-                    <>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Months</label>
+                        <input
+                          type="text"
+                          name="months"
+                          value={formData.months}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Batch</label>
+                        <select
+                          name="timing"
+                          value={formData.timing}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        >
+                          <option value="">Select Time</option>
+                          {[
+                            "8-9 AM", "9-10 AM", "10-11 AM", "11-12 PM", "12-1 PM",
+                            "1-2 PM", "2-3 PM", "3-4 PM", "4-5 PM", "5-6 PM",
+                            "6-7 PM", "7-8 PM", "8-9 PM",
+                          ].map((slot) => (
+                            <option key={slot} value={slot}>{slot}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Fee</label>
+                        <input
+                          type="text"
+                          name="fee"
+                          value={formData.fee}
+                          onChange={handleChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Photo</label>
+                        <input
+                          type="file"
+                          name="photo"
+                          onChange={handleFileChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">ID Card</label>
+                        <input
+                          type="file"
+                          name="idCard"
+                          onChange={handleFileChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Certificate</label>
+                        <input
+                          type="file"
+                          name="certificate"
+                          onChange={handleFileChange}
+                          className="p-2 border rounded w-full"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex space-x-4">
                       <button
                         onClick={() => handleSmartUpdate(user._id)}
-                        className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                       >
-                        Save
+                        Save Changes
                       </button>
                       <button
                         onClick={() => setEditingUser(null)}
-                        className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                       >
                         Cancel
                       </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => handleEdit(user)}
-                        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(user._id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          )}
+        </>
+      ))}
+    </tbody>
+  </table>
+</div>  
     </div>
     </div>
   );

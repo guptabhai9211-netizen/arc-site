@@ -329,7 +329,7 @@ const CourseDetails = () => {
     const timer = setTimeout(() => {
       const found = mockCourses.find(c => c.slug === slug);
       setCourse(found);
-    }, 300);
+    }, );
 
     return () => clearTimeout(timer);
   }, [slug]);

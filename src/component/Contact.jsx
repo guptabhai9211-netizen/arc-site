@@ -15,7 +15,7 @@ export function ContactSection() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Contact <span className="text-blue-600">ARC Computer Institute</span>
+            Contact <span className="text-blue-600">ARC  Computer Institute</span>
           </h2>
           <div className="w-16 h-1 bg-blue-600 mx-auto mb-4 rounded-full"></div>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -85,7 +85,7 @@ export function ContactSection() {
                   <h3 className="text-gray-900 font-semibold text-lg mb-1">Contact Numbers</h3>
                   <p className="text-gray-600">
                     <a href="tel:8860448368" className="hover:text-blue-600 block">8860448368</a>
-                    <a href="tel:8586919186" className="hover:text-blue-600 block">8586919186</a>
+                    <a href="tel:8586919186" className="hover:text-blue-600 block">8860448399</a>
                   </p>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export function ContactSection() {
                 <div>
                   <h3 className="text-gray-900 font-semibold text-lg mb-1">Operating Hours</h3>
                   <p className="text-gray-600">
-                    Monday - Saturday: 8:00 AM - 6:00 PM<br />
+                    Monday - Saturday: 8:00AM - 8:00 PM<br />
                     Sunday: Closed
                   </p>
                 </div>
@@ -152,9 +152,9 @@ export function ContactSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us an Inquiry</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Us</h3>
             <form 
-              action="https://formspree.io/f/sefdel333@gmail.com" 
+              action="https://formspree.io/f/mrbknydz" 
               method="POST"
               className="space-y-4"
             >
@@ -200,13 +200,21 @@ export function ContactSection() {
                   name="course"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Select a course</option>
-                  <option value="basic-computer">Basic Computer Course</option>
-                  <option value="programming">Programming Languages</option>
-                  <option value="web-development">Web Development</option>
-                  <option value="ai-ml">AI & Machine Learning</option>
-                  <option value="cybersecurity">Cybersecurity</option>
-                  <option value="other">Other</option>
+                 <option value="">Select a course</option>
+<option value="basic-computer">Basic Computer</option>
+<option value="graphic-designing">Graphic Designing</option>
+<option value="web-designing">Web Designing</option>
+<option value="caad">CAAD</option>
+<option value="cca">CCA</option>
+<option value="aca">ACA</option>
+<option value="adca">ADCA</option>
+<option value="digital-marketing">Digital Marketing</option>
+<option value="python">Python</option>
+<option value="advanced-excel">Advanced Excel</option>
+<option value="busy">Busy</option>
+<option value="tally-prime">Tally Prime</option>
+<option value="ccc">CCC</option>
+
                 </select>
               </div>
               

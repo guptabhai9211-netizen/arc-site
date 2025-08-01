@@ -1,8 +1,39 @@
  import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
+// import { Helmet } from "react-helmet";
+ import { Helmet } from "react-helmet-async";
+
 
 const WhyChooseUs = () => {
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "ARC Institute",
+    "url": "https://www.arcinstitute.in",
+    "logo": "https://www.arcinstitute.in/logo.jpg",
+    "sameAs": [
+      "https://www.facebook.com/arcinstitutedelhi",
+      "https://www.instagram.com/arcinstitute.delhi",
+      "https://www.youtube.com/@arcinstitutedelhi",
+      "https://www.linkedin.com/company/arc-institute-delhi"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Your Street Address",
+      "addressLocality": "Delhi",
+      "postalCode": "Your PIN",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "Your Phone",
+      "contactType": "admissions"
+    }
+  };
+
+
   const [ref, inView] = useInView({
     threshold: 0.2,
     triggerOnce: false
@@ -45,7 +76,7 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Industry-Recognized Certification",
-      description: "Our courses come with certifications recognized by top tech companies worldwide."
+      description: "Our courses come with certifications recognized by top tech companies in Delhi and nationwide."
     },
     {
       icon: (
@@ -54,7 +85,7 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Expert Instructors",
-      description: "Learn from industry professionals with 8+ years of real-world experience."
+      description: "Learn from Delhi's top industry professionals with 8+ years of real-world experience."
     },
     {
       icon: (
@@ -63,7 +94,7 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Project-Based Learning",
-      description: "Build real projects that you can showcase in your portfolio."
+      description: "Build real projects that you can showcase in your portfolio to Delhi employers."
     },
     {
       icon: (
@@ -72,7 +103,7 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Job Placement Support",
-      description: "95% of our graduates land tech jobs within 3 months of completion."
+      description: "95% of our graduates land tech jobs in Delhi within 3 months of completion."
     },
     {
       icon: (
@@ -81,7 +112,7 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Flexible Learning Options",
-      description: "Choose between online, hybrid, or in-person learning formats."
+      description: "Choose between online, hybrid, or in-person learning at our Delhi centers."
     },
     {
       icon: (
@@ -90,132 +121,179 @@ const WhyChooseUs = () => {
         </svg>
       ),
       title: "Cutting-Edge Curriculum",
-      description: "Our courses are updated quarterly to reflect industry trends."
+      description: "Our Delhi-focused courses are updated quarterly to reflect industry trends."
     }
   ];
 
   return (
-    <section
-      id="why-choose-us"
-      className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden"
-      ref={ref}
-    >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0C0950] to-[#3A36DB] mask mask-circle mix-blend-overlay"></div>
-      </div>
+    <>
+     
+    <Helmet>
+      <title>Why Choose ARC Institute? | Best IT Training & Certification in Delhi</title>
+      <meta name="description" content="ARC Institute is Delhi's premier IT training center offering industry-aligned courses, expert trainers, 95% placement record, and government-recognized certifications. Start your tech career today!" />
+      <meta name="keywords" content="best computer institute Delhi, IT training Delhi, certified computer courses, job placement support Delhi, IT certification courses, ARC Institute reviews, project-based learning, affordable IT training, government recognized computer institute" />
+      <meta property="og:title" content="Why ARC Institute is Delhi's #1 Choice for IT Training & Certification" />
+      <meta property="og:description" content="Get job-ready IT skills with Delhi's most trusted computer institute. 95% placement rate, industry-expert trainers, and government-recognized certifications." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.arcinstitute.in/why-choose-us" />
+      <meta property="og:image" content="https://www.arcinstitute.in/logo.jpg" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Top Reasons to Choose ARC Institute for IT Training in Delhi" />
+      <meta name="twitter:description" content="Industry-aligned curriculum, placement support, and expert trainers make ARC Institute Delhi's best computer education center." />
+      <link rel="canonical" href="https://www.arcinstitute.in/why-choose-us" />
+      
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+    </Helmet>
+  
 
-      <div className="relative max-w-7xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={containerVariants}
-        >
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
-            variants={itemVariants}
-          >
-            Why Choose <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]">ARC Institute?</span>
-          </motion.h2>
-          <motion.p
-            className="text-lg text-gray-600 max-w-3xl mx-auto"
-            variants={itemVariants}
-          >
-            We're committed to providing the best tech education with proven results that transform careers
-          </motion.p>
-        </motion.div>
+      <section
+        id="why-choose-us"
+        className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden"
+        ref={ref}
+        itemScope
+        itemType="https://schema.org/ItemList"
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0C0950] to-[#3A36DB] mask mask-circle mix-blend-overlay"></div>
+        </div>
 
-        {/* Features Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={containerVariants}
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
+        <div className="relative max-w-7xl mx-auto">
+          {/* Section Header */}
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={containerVariants}
+          >
+            <motion.h1
+              className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
               variants={itemVariants}
-              whileHover={{ y: -5 }}
+              itemProp="name"
             >
-              <div className="flex items-start">
-                <div className="flex-shrink-0  bg-opacity-10 p-3 rounded-lg text-[#0C0950]">
-                  {feature.icon}
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              Why Choose <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]">ARC Institute Delhi?</span>
+            </motion.h1>
+            <motion.p
+              className="text-lg text-gray-600 max-w-3xl mx-auto"
+              variants={itemVariants}
+              itemProp="description"
+            >
+              Delhi's premier IT training institute with proven results that transform careers since 2010
+            </motion.p>
+          </motion.div>
 
-        {/* Stats Section */}
-        <motion.div
-          className="mt-20 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: inView ? 1 : 0.8 }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="text-4xl font-bold mb-2">10K+</div>
-              <div className="text-sm opacity-80">Students Trained</div>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: inView ? 1 : 0.8 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="text-4xl font-bold mb-2">95%</div>
-              <div className="text-sm opacity-80">Placement Rate</div>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: inView ? 1 : 0.8 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-sm opacity-80">Hiring Partners</div>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: inView ? 1 : 0.8 }}
-              transition={{ delay: 0.8 }}
-            >
-              <div className="text-4xl font-bold mb-2">4.9/5</div>
-              <div className="text-sm opacity-80">Student Satisfaction</div>
-            </motion.div>
-          </div>
-        </motion.div>
+          {/* Features Grid */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={containerVariants}
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
+                itemProp="itemListElement"
+                itemScope
+                itemType="https://schema.org/ListItem"
+              >
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 bg-opacity-10 p-3 rounded-lg text-[#0C0950]">
+                    {feature.icon}
+                  </div>
+                  <div className="ml-4">
+                    <h2 className="text-xl font-bold text-gray-900 mb-2" itemProp="name">{feature.title}</h2>
+                    <p className="text-gray-600" itemProp="description">{feature.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
 
-        {/* CTA */}
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: inView ? 1 : 0 }}
-          transition={{ delay: 1 }}
-        >
-          <Link to="/contactSection">
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-4 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
-            >
-            Start Your Tech Journey Today
-          </motion.button>
+          {/* Stats Section */}
+          <motion.div
+            className="mt-20 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
+            transition={{ duration: 0.8 }}
+            itemScope
+            itemType="https://schema.org/ItemList"
+          >
+            <h2 className="sr-only">Our Achievements</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: inView ? 1 : 0.8 }}
+                transition={{ delay: 0.2 }}
+                itemProp="itemListElement"
+                itemScope
+                itemType="https://schema.org/ListItem"
+              >
+                <div className="text-4xl font-bold mb-2" itemProp="name">9K+</div>
+                <div className="text-sm opacity-80" itemProp="description">Students Trained</div>
+              </motion.div>
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: inView ? 1 : 0.8 }}
+                transition={{ delay: 0.4 }}
+                itemProp="itemListElement"
+                itemScope
+                itemType="https://schema.org/ListItem"
+              >
+                <div className="text-4xl font-bold mb-2" itemProp="name">95%</div>
+                <div className="text-sm opacity-80" itemProp="description">Placement Rate</div>
+              </motion.div>
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: inView ? 1 : 0.8 }}
+                transition={{ delay: 0.6 }}
+                itemProp="itemListElement"
+                itemScope
+                itemType="https://schema.org/ListItem"
+              >
+                <div className="text-4xl font-bold mb-2" itemProp="name">10+</div>
+                <div className="text-sm opacity-80" itemProp="description">Hiring Partners</div>
+              </motion.div>
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: inView ? 1 : 0.8 }}
+                transition={{ delay: 0.8 }}
+                itemProp="itemListElement"
+                itemScope
+                itemType="https://schema.org/ListItem"
+              >
+                <div className="text-4xl font-bold mb-2" itemProp="name">4.8/5</div>
+                <div className="text-sm opacity-80" itemProp="description">Student Satisfaction</div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            className="mt-16 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: inView ? 1 : 0 }}
+            transition={{ delay: 1 }}
+          >
+            <Link to="/contactSection" itemProp="url">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
+                aria-label="Enroll Now at ARC Computer Institute Delhi"
+              >
+                Start Your Tech Journey Today
+              </motion.button>
             </Link>
-        </motion.div>
-      </div>
-    </section>
+             
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 };
 

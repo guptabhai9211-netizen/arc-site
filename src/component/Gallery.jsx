@@ -5,113 +5,113 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { HeroParallax } from "../component/ui/hero-parallax";
 
-export const products = [
-  {
-    // title: "Moonbeam",
-    link: "https://gomoonbeam.com",
-    thumbnail:
-      "/img1.jpg",
-  },
-  {
-    // title: "Cursor",
-    link: "https://cursor.so",
-    thumbnail:
-          "/img2.jpg",
+// export const products = [
+//   {
+//     // title: "Moonbeam",
+//     link: "https://gomoonbeam.com",
+//     thumbnail:
+//       "/img1.jpg",
+//   },
+//   {
+//     // title: "Cursor",
+//     link: "https://cursor.so",
+//     thumbnail:
+//           "/img2.jpg",
 
-   },
-  {
-    // title: "Rogue",
-    link: "https://userogue.com",
-    thumbnail:
-          "/img3.jpg",
+//    },
+//   {
+//     // title: "Rogue",
+//     link: "https://userogue.com",
+//     thumbnail:
+//           "/img3.jpg",
 
-   },
-  {
-    // title: "Editorially",
-    link: "https://editorially.org",
-    thumbnail:
-          "/img4.jpg",
+//    },
+//   {
+//     // title: "Editorially",
+//     link: "https://editorially.org",
+//     thumbnail:
+//           "/img4.jpg",
 
-   },
-  {
-    // title: "Editrix AI",
-    link: "https://editrix.ai",
-    thumbnail:
-          "/img5.jpg",
+//    },
+//   {
+//     // title: "Editrix AI",
+//     link: "https://editrix.ai",
+//     thumbnail:
+//           "/img5.jpg",
 
-   },
-  {
-    // title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
-    thumbnail:
-          "/img6.jpg",
+//    },
+//   {
+//     // title: "Pixel Perfect",
+//     link: "https://app.pixelperfect.quest",
+//     thumbnail:
+//           "/img6.jpg",
 
-   },
-  {
-    // title: "Algochurn",
-    link: "https://algochurn.com",
-    thumbnail:
-          "/img8.jpg",
+//    },
+//   {
+//     // title: "Algochurn",
+//     link: "https://algochurn.com",
+//     thumbnail:
+//           "/img8.jpg",
 
-   },
-  {
-    // title: "Aceternity UI",
-    link: "https://ui.aceternity.com",
-    thumbnail:
-          "/img26.jpeg",
+//    },
+//   {
+//     // title: "Aceternity UI",
+//     link: "https://ui.aceternity.com",
+//     thumbnail:
+//           "/img26.jpeg",
 
-   },
-  {
-    // title: "Tailwind Master Kit",
-    // link: "https://tailwindmasterkit.com",
-    thumbnail:
-          "/img19.JPG",
+//    },
+//   {
+//     // title: "Tailwind Master Kit",
+//     // link: "https://tailwindmasterkit.com",
+//     thumbnail:
+//           "/img19.JPG",
 
-   },
-  {
-    // title: "SmartBridge",
-    // link: "https://smartbridgetech.com",
-    thumbnail:
-          "/img25.jpeg",
+//    },
+//   {
+//     // title: "SmartBridge",
+//     // link: "https://smartbridgetech.com",
+//     thumbnail:
+//           "/img25.jpeg",
 
-   },
-  {
-    // title: "Renderwork Studio",
-    link: "https://renderwork.studio",
-    thumbnail:
-          "/img21.jpg",
+//    },
+//   {
+//     // title: "Renderwork Studio",
+//     link: "https://renderwork.studio",
+//     thumbnail:
+//           "/img21.jpg",
 
 
-   },
-  {
-    // title: "Creme Digital",
-    link: "https://cremedigital.com",
-    thumbnail:
-          "/img10.jpg",
+//    },
+//   {
+//     // title: "Creme Digital",
+//     link: "https://cremedigital.com",
+//     thumbnail:
+//           "/img10.jpg",
 
-   },
-  {
-    // title: "Golden Bells Academy",
-    link: "https://goldenbellsacademy.com",
-    thumbnail:
-          "/img11.jpeg",
+//    },
+//   {
+//     // title: "Golden Bells Academy",
+//     link: "https://goldenbellsacademy.com",
+//     thumbnail:
+//           "/img11.jpeg",
 
-   },
-  {
-    // title: "Invoker Labs",
-    link: "https://invoker.lol",
-    thumbnail:
-              "/img12.jpeg",
+//    },
+//   {
+//     // title: "Invoker Labs",
+//     link: "https://invoker.lol",
+//     thumbnail:
+//               "/img12.jpeg",
 
-   },
-  {
-    // title: "E Free Invoice",
-    link: "https://efreeinvoice.com",
-    thumbnail:
-              "/img1.jpeg",
+//    },
+//   {
+//     // title: "E Free Invoice",
+//     link: "https://efreeinvoice.com",
+//     thumbnail:
+//               "/img1.jpeg",
 
-   },
-];
+//    },
+// ];
 
 const MediaGallery = () => {
   const [ref, inView] = useInView({
@@ -202,7 +202,67 @@ const MediaGallery = () => {
                   url: "/img56.jpeg",
 
        cols: "md:col-span-1"
-    }
+    },
+    {
+      id: 9,
+      type: "image",
+      category: "lab",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "/lab.jpeg",
+
+       cols: "md:col-span-1"
+    },
+    {
+      id: 10,
+      type: "image",
+      category: "lab",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "lab.jpg",
+
+       cols: "md:col-span-1"
+    },
+    {
+      id: 11,
+      type: "image",
+      category: "lab",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "1 (645).jpg",
+
+       cols: "md:col-span-1"
+    },
+    {
+      id: 12,
+      type: "image",
+      category: "campus",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "cam.jpg",
+
+       cols: "md:col-span-1"
+    },
+    {
+      id: 13,
+      type: "image",
+      category: "awards",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "/ab.JPEG",
+
+       cols: "md:col-span-1"
+    },
+    {
+      id: 14,
+      type: "image",
+      category: "awards",
+      // title: "Industry Partners",
+      // description: "Collaborating with tech leaders",
+                  url: "/ab1.jpeg",
+
+       cols: "md:col-span-1"
+    },
   ];
 
   const filters = [
@@ -244,7 +304,7 @@ const MediaGallery = () => {
   return (
     <>
       {/* Hero Parallax */}
-      <HeroParallax products={products} />
+      {/* <HeroParallax products={products} />
 
       {/* Media Gallery Section */}
       <section
@@ -268,7 +328,7 @@ const MediaGallery = () => {
             <p className="text-lg text-[#0C0950] max-w-2xl mx-auto">
               Explore life at our institute through student activities, workshops, and facilities
             </p>
-          </motion.div>
+          </motion.div> 
 
           {/* Filters */}
           <motion.div

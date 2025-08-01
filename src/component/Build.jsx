@@ -64,7 +64,7 @@ const AdvantageSection = () => {
     {
       icon: <FaUsers className="text-3xl" />,
       title: "Alumni Network",
-      description: "Access to our community of 10,000+ successful graduates",
+      description: "Access to our community of 9758+ successful graduates",
       color: "bg-gradient-to-br from-rose-100 to-rose-50",
       iconColor: "text-[#3A36DB]"
     },
@@ -76,13 +76,7 @@ const AdvantageSection = () => {
       iconColor: "text-[#0C0950]"
     }
   ];
-
-  const stats = [
-    { value: "10K+", label: "Students Trained", icon: "👨‍🎓" },
-    { value: "95%", label: "Placement Rate", icon: "🏅" },
-    { value: "2+", label: "Branches in Delhi", icon: "📍" },
-    { value: "50+", label: "Expert Trainers", icon: "🧑‍🏫" }
-  ];
+ 
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -164,27 +158,7 @@ const AdvantageSection = () => {
         </motion.div>
 
         {/* Stats Section */}
-        <motion.div
-          className="bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ scale: 0.8 }}
-                animate={{ scale: inView ? 1 : 0.8 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <div className="text-5xl mb-2">{stat.icon}</div>
-                <div className="text-4xl font-bold mb-2">{stat.value}</div>
-                <div className="text-sm opacity-90">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        
 
         {/* CTA */}
         <motion.div

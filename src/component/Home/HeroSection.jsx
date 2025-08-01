@@ -1,4 +1,15 @@
+ 
  import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useMemo } from "react";
+
+// Components
+import ChatBot from "../../utlis/Bot.jsx";
+import WhatsAppButton from "../../utlis/WhatsAppButton.jsx";
+import ParticleComponent from "../ParticleComponent.jsx";
+
+// Variants
 import {
   containerVariants,
   itemVariants,
@@ -6,229 +17,268 @@ import {
   staggerContainer,
   staggerItem,
 } from "../../utlis/variants.js";
-import ParticleComponent from "../ParticleComponent.jsx";
-import ChatBot from "../../utlis/Bot.jsx";
-import WhatsAppButton from "../../utlis/WhatsAppButton.jsx";
-// import { Link } from 'react-router-dom';
-import { Link } from "react-router-dom";
+import AnnouncementBanner from "../../new/AnnouncementBanner.jsx";
 
 const MotionLink = motion(Link);
 
 const HeroSection = () => {
+  // Memoize static data to prevent recreation on re-renders
+  const studentImages = useMemo(() => ["/test3.jpg", "/test1.jpg", "/test2.jpg"], []);
+  
+  const technologies = useMemo(() => [
+    { name: "Basic Computer", logo: "💻" },
+    { name: "Graphic Design", logo: "🎨" },
+    { name: "Web Design", logo: "🌐" }, 
+    { name: "Accounting", logo: "📊" },
+    { name: "Tally Prime", logo: "🧮" },
+    { name: "Busy", logo: "📈" },
+    { name: "Advanced Excel", logo: "📉" },
+    { name: "Digital Marketing", logo: "📱" },
+    { name: "Python", logo: "🐍" },
+    { name: "CAAD", logo: "🖥️" },
+    { name: "CCA", logo: "🎓" },
+    { name: "ACA", logo: "🏅" },
+    { name: "ADCA", logo: "💾" },
+    { name: "CCC", logo: "🖱️" },
+  ], []);
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "ARC Institute",
+    "url": "https://www.arcinstitute.in",
+    "logo": "https://www.arcinstitute.in/logo.jpg",
+    "description": "Premier IT training institute in Delhi offering industry-relevant courses with placement support.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Your Street Address",
+      "addressLocality": "Delhi",
+      "addressRegion": "Delhi",
+      "postalCode": "110042",
+      "addressCountry": "IN"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "500"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "IT Training Programs",
+      "itemListElement": technologies.map(tech => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Course",
+          "name": tech.name
+        }
+      }))
+    }
+  };
+
   return (
-    <section id="home" className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-x-hidden overflow-hidden">
-      <ChatBot />
-      <WhatsAppButton />
+    <>
+      <Helmet>
+        <title>Best IT Training Institute in Delhi | ARC Institute</title>
+        <meta name="description" content="Join Delhi's premier IT training institute with 95% placement record. Learn from industry experts with hands-on training in programming, design, and digital marketing." />
+        <link rel="canonical" href="https://www.arcinstitute.in/" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Best IT Training Institute in Delhi | ARC Institute" />
+        <meta property="og:description" content="Get job-ready with Delhi's top-rated IT training programs. Industry-aligned curriculum with placement support." />
+        <meta property="og:url" content="https://www.arcinstitute.in/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.arcinstitute.in/logo.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Best IT Training Institute in Delhi | ARC Institute" />
+        <meta name="twitter:description" content="Get job-ready with Delhi's top-rated IT training programs. Industry-aligned curriculum with placement support." />
+        <meta name="twitter:image" content="https://www.arcinstitute.in/logo.jpg" />
+        
+        {/* Schema.org */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Helmet>
+<div className="">
 
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <ParticleComponent />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <motion.div
-          className="grid md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-12rem)]"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+      <section 
+        id="home" 
+        className="relative pt-5 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden  "
+        itemScope
+        itemType="https://schema.org/EducationalOrganization"
         >
-          {/* Left Section */}
-          <motion.div variants={itemVariants}>
-            <motion.div className="text-sm font-semibold tracking-wide uppercase text-[#0C0950] mb-4" variants={fadeInVariants}>
-              Transforming Tech Education
-            </motion.div>
+        {/* <AnnouncementBanner/> */}
+        {/* Chat components */}
+        <ChatBot />
+        <WhatsAppButton />
 
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
-              variants={staggerContainer}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.span className="block" variants={staggerItem}>Build Your Future</motion.span>
-              <motion.span className="block bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]" variants={staggerItem}>
-                With Cutting-Edge
-              </motion.span>
-              <motion.span variants={staggerItem}>Tech Skills</motion.span>
-            </motion.h1>
+        {/* Optimized Particle Background */}
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+          <ParticleComponent particleCount={30} /> {/* Reduced particle count */}
+        </div>
+<div className="">
 
-            <motion.p className="text-lg text-gray-600 mb-8 max-w-lg" variants={itemVariants}>
-              Join our industry-leading programs and gain hands-on experience with the latest technologies taught by expert instructors.
-            </motion.p>
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <motion.div
+            className="grid md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-12rem)]"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            {/* Left Content - Optimized with less DOM depth */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <motion.div variants={fadeInVariants} className="text-sm font-semibold tracking-wide uppercase text-[#0C0950]">
+                Transforming Tech Education
+              </motion.div>
 
-            <motion.div
-  className="flex flex-wrap gap-4"
-  variants={staggerContainer}
-  initial="hidden"
-  animate="visible"
->
-  <MotionLink
-    to="/contactSection"
-    className="px-8 py-3 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center"
-    variants={staggerItem}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    Apply Now
-  </MotionLink>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <motion.span className="block" variants={staggerItem}>Build Your Future</motion.span>
+                <motion.span 
+                  className="block bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]" 
+                  variants={staggerItem}
+                >
+                  With Cutting-Edge
+                </motion.span>
+                <motion.span variants={staggerItem}>Tech Skills</motion.span>
+              </h1>
 
-  <MotionLink
-    to="/courses"
-    className="px-8 py-3 border-2 border-[#0C0950] text-[#0C0950] font-medium rounded-lg hover:bg-[#0C0950] hover:text-white transition-all duration-300"
-    variants={staggerItem}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    Explore Courses
-  </MotionLink>
-</motion.div>
+              <motion.p className="text-lg text-gray-600 max-w-lg" variants={itemVariants}>
+                Join our industry-leading programs and gain hands-on experience with the latest technologies taught by expert instructors.
+              </motion.p>
 
+              <motion.div className="flex flex-wrap gap-4" variants={staggerContainer}>
+                <MotionLink
+                  to="/contactSection"
+                  className="px-8 py-3 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  aria-label="Apply Now"
+                >
+                  Apply Now
+                </MotionLink>
 
-            <motion.div className="mt-12 flex items-center space-x-6" variants={itemVariants}>
-              <div className="flex -space-x-2">
-                {[1, 2, 3].map((item) => (
-                  <motion.img
-                    key={item}
-                    src={`https://randomuser.me/api/portraits/${item % 2 === 0 ? "women" : "men"}/${item + 20}.jpg`}
-                    alt="Student"
-                    className="w-10 h-10 rounded-full border-2 border-white"
-                    initial={{ x: -20 * item, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.1 * item }}
-                  />
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+                <MotionLink
+                  to="/courses"
+                  className="px-8 py-3 border-2 border-[#0C0950] text-[#0C0950] font-medium rounded-lg hover:bg-[#0C0950] hover:text-white transition-all duration-300"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  aria-label="Explore Courses"
+                >
+                  Explore Courses
+                </MotionLink>
+              </motion.div>
+
+              <motion.div className="flex items-center gap-6" variants={itemVariants}>
+                <div className="flex -space-x-2">
+                  {studentImages.map((imgSrc, index) => (
+                    <motion.img
+                      key={index}
+                      src={imgSrc}
+                      alt=""
+                      className="w-12 h-12 rounded-full border-2 border-white"
+                      width="48"
+                      height="48"
+                      loading="lazy"
+                      initial={{ x: -20 * (index + 1), opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 * (index + 1) }}
+                      aria-hidden="true"
+                    />
                   ))}
                 </div>
-                <p className="text-sm text-gray-600 mt-1">Rated 5.0 by 1000+ students</p>
+                <div>
+                  <div className="flex" aria-label="Rated 4.8 out of 5 stars">
+                    {[...Array(5)].map((_, i) => (
+                      <svg 
+                      key={i} 
+                      className="w-5 h-5 text-yellow-400" 
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">500+ students • 4.8★ on Google</p>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Image - Optimized with priority loading */}
+            <motion.div
+              className="relative"
+              variants={itemVariants}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative w-full aspect-[4/3] md:aspect-[5/4] rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src="/Anil_sir.jpeg"
+                  alt="ARC Institute instructor teaching students"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  width="800"
+                  height="600"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0950] to-transparent opacity-70" />
               </div>
+
+              <motion.div
+                className="absolute -bottom-8 -left-8 bg-white p-4 rounded-xl shadow-xl max-w-xs"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                whileHover={{ y: -5 }}
+              >
+                <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-[#0C0950]" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeWidth="2" d="M9 12l2 2 4-4" />
+                  </svg>
+                  Industry Certified
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  Our programs are recognized by leading tech companies worldwide.
+                </p>
+              </motion.div>
             </motion.div>
           </motion.div>
 
-          {/* Right Section */}
-          <motion.div
-            className="relative"
-            variants={itemVariants}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="relative w-full h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-              <motion.img
-                src="/Anil_sir.jpeg"
-                alt="Students learning"
-                className="absolute inset-0 w-full h-full object-cover"
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 1.2 }}
-              />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-[#0C0950] to-transparent opacity-70"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
-                transition={{ delay: 0.5, duration: 1 }}
-              />
+          {/* Optimized Technologies Marquee */}
+          <motion.div className="mt-16" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-px bg-gray-200 flex-1" />
+              <h2 className="text-sm font-medium text-gray-500">Technologies We Teach</h2>
+              <div className="h-px bg-gray-200 flex-1" />
             </div>
 
-            <motion.div
-              className="absolute -bottom-8 -left-8 bg-white p-6 rounded-xl shadow-xl max-w-xs"
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-              whileHover={{ y: -5 }}
-            >
-              <h3 className="ml-3 font-bold text-gray-900 flex items-center">
-                <svg className="w-6 h-6 mr-2 text-[#0C0950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                </svg>
-                Industry Certified
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Our programs are recognized by leading tech companies worldwide.
-              </p>
-            </motion.div>
-
-            {/* <motion.div
-              className="absolute top-80 -right-8 bg-white p-6 rounded-xl shadow-xl max-w-xs"
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1, duration: 0.6 }}
-              whileHover={{ y: -5 }}
-            >
-              <h3 className="ml-3 font-bold text-gray-900 flex items-center">
-                <svg className="w-6 h-6 mr-2 text-[#0C0950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745" />
-                </svg>
-                Job Placement
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">
-                95% of our graduates secure jobs within 3 months of completion.
-              </p>
-            </motion.div> */}
+            <div className="relative overflow-hidden">
+              <div className="flex w-max animate-marquee whitespace-nowrap">
+                {[...technologies, ...technologies].map((tech, index) => (
+                  <div
+                  key={`${tech.name}-${index}`}
+                    className="inline-flex items-center px-6 py-3 mx-2 bg-white rounded-lg shadow-sm"
+                    aria-hidden={index >= technologies.length}
+                    >
+                    <span className="mr-3 text-lg">{tech.logo}</span>
+                    <span className="font-medium text-gray-700">{tech.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
-        </motion.div>
-
-        {/* Technologies We Teach Section */}
-     <motion.div
-  className="mt-16 overflow-x-hidden"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 1.2 }}
->
-  <div className="flex items-center justify-center mb-8">
-    <div className="h-px bg-gray-200 flex-1"></div>
-    <h3 className="px-4 text-sm font-medium text-gray-500">Technologies We Teach</h3>
-    <div className="h-px bg-gray-200 flex-1"></div>
-  </div>
-
-  <motion.div
-    className="flex w-max"
-    animate={{ x: ["0%", "-100%"] }}
-    transition={{ repeat: Infinity, duration: 50, ease: "linear" }}
-  >
-    {[
-      { name: "Basic Computer", logo: "💻" },
-      { name: "Graphic Design", logo: "🎨" },
-      { name: "Web Design", logo: "🌐" },
-      { name: "Accounting", logo: "📊" },
-      { name: "Tally Prime", logo: "🧮" },
-      { name: "Busy", logo: "📈" },
-      { name: "Advanced Excel", logo: "📉" },
-      { name: "Digital Marketing", logo: "📱" },
-      { name: "Python", logo: "🐍" },
-      { name: "CAAD", logo: "🖥️" },
-      { name: "CCA", logo: "🎓" },
-      { name: "ACA", logo: "🏅" },
-      { name: "ADCA", logo: "💾" },
-      { name: "CCC", logo: "🖱️" },
-      { name: "Photoshop", logo: "🖌️" },
-      { name: "Corel Draw", logo: "✏️" },
-      { name: "HTML/CSS", logo: "</>" },
-      { name: "JavaScript", logo: "JS" },
-      { name: "MS Office", logo: "📄" },
-      { name: "Computer Hardware", logo: "🔧" }
-    ].map((tech, index) => (
-      <div
-        key={index}
-        className="relative flex-shrink-0 px-6 py-3 mx-2 bg-white rounded-lg shadow-sm flex items-center"
-      >
-        {/* Cin Badge */}
-         
-        
-        <span className="w-8 h-8  bg-opacity-10 rounded-full flex items-center justify-center mr-3 text-lg">
-          {tech.logo}
-        </span>
-        <span className="font-medium text-gray-700">{tech.name}</span>
+        </div>
+                    </div>
+      </section>
+      
       </div>
-    ))}
-  </motion.div>
-</motion.div>
-      </div>
-    </section>
+    </>
   );
 };
 

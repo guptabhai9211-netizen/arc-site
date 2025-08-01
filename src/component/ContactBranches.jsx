@@ -75,7 +75,7 @@ export function ContactBranches() {
                   <div>
                     <h4 className="font-medium text-gray-800">Hours</h4>
                     <p className="text-gray-600">
-                      Mon-Sat: 8:00 AM - 6:00 PM<br />
+                      Mon-Sat: 8:00 AM - 8:00 PM<br />
                       Sunday: Closed
                     </p>
                   </div>
@@ -88,10 +88,22 @@ export function ContactBranches() {
                   <div>
                     <h4 className="font-medium text-gray-800">Courses Offered</h4>
                     <ul className="text-gray-600 list-disc list-inside">
-                      <li>Basic Computer Fundamentals</li>
-                      <li>Programming Languages</li>
-                      <li>Web Development</li>
-                      <li>Graphic Design</li>
+                       <ul>
+  <li>Basic Computer</li>
+  <li>Graphic Designing</li>
+  <li>Web Designing</li>
+  <li>CAAD (Certificate in Advanced Accounting & Designing)</li>
+  <li>CCA (Certificate in Computer Accounting)</li>
+  <li>ACA (Advanced Certificate in Accounting)</li>
+  <li>ADCA (Advanced Diploma in Computer Application)</li>
+  <li>Digital Marketing</li>
+  <li>Python</li>
+  <li>Advanced Excel</li>
+  <li>Busy</li>
+  <li>Tally Prime</li>
+  <li>CCC (Course on Computer Concept)</li>
+</ul>
+
                     </ul>
                   </div>
                 </div>
@@ -134,11 +146,12 @@ export function ContactBranches() {
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-800">Address</h4>
-                    <p className="text-gray-600">
-                      25 Futa Road, Near AAP Party Office<br />
-                      West Kamal Vihar, Burari<br />
-                      Delhi - 110084
-                    </p>
+                     <p className="text-gray-600">
+  Main 25, Futa Road, near Aam Aadmi Party Office,<br />
+  West Kamal Vihar<br />
+  Delhi – 110084
+</p>
+
                   </div>
                 </div>
 
@@ -150,7 +163,7 @@ export function ContactBranches() {
                     <h4 className="font-medium text-gray-800">Contact</h4>
                     <p className="text-gray-600">
                       <a href="tel:8860448368" className="hover:text-blue-600 block">8860448368</a>
-                      <a href="tel:8586919186" className="hover:text-blue-600 block">8586919186</a>
+                      <a href="tel:8586919186" className="hover:text-blue-600 block">8860448399</a>
                     </p>
                   </div>
                 </div>
@@ -162,7 +175,7 @@ export function ContactBranches() {
                   <div>
                     <h4 className="font-medium text-gray-800">Hours</h4>
                     <p className="text-gray-600">
-                      Mon-Sat: 8:00 AM - 6:00 PM<br />
+                      Mon-Sat: 8:00 AM - 8:00 PM<br />
                       Sunday: Closed
                     </p>
                   </div>
@@ -175,10 +188,22 @@ export function ContactBranches() {
                   <div>
                     <h4 className="font-medium text-gray-800">Courses Offered</h4>
                     <ul className="text-gray-600 list-disc list-inside">
-                      <li>Advanced Programming</li>
-                      <li>AI & Machine Learning</li>
-                      <li>Cybersecurity</li>
-                      <li>Cloud Computing</li>
+                       <ul>
+  <li>Basic Computer</li>
+  <li>Graphic Designing</li>
+  <li>Web Designing</li>
+  <li>CAAD (Certificate in Advanced Accounting & Designing)</li>
+  <li>CCA (Certificate in Computer Accounting)</li>
+  <li>ACA (Advanced Certificate in Accounting)</li>
+  <li>ADCA (Advanced Diploma in Computer Application)</li>
+  <li>Digital Marketing</li>
+  <li>Python</li>
+  <li>Advanced Excel</li>
+  <li>Busy</li>
+  <li>Tally Prime</li>
+  <li>CCC (Course on Computer Concept)</li>
+</ul>
+
                     </ul>
                   </div>
                 </div>
@@ -222,7 +247,7 @@ export function ContactBranches() {
                 <FaPhone className="text-blue-600" />
               </div>
               <a href="tel:8860448368" className="text-gray-700 hover:text-blue-600 font-medium">
-                8860448368 / 8586919186
+                8860448368 / 8860448399
               </a>
             </div>
           </div>

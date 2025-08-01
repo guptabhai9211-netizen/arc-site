@@ -49,7 +49,7 @@ export default function StudentDetails() {
         setError("");
       } catch (err) {
         setError("No student data available");
-        console.error("API Error:", err);
+        // console.error("API Error:", err);
       } finally {
         setLoading(false);
       }

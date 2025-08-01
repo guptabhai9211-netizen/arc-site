@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
 
             <p className="text-gray-400 text-sm leading-relaxed">
-              ARC Computer Institute, run by Sandarbhdeep Educational Foundation (SEF), is an ISO 9001:2015 certified institute registered under the Ministry of Corporate Affairs. Founded by Anil Kumar, we aim to make quality computer education accessible to all.
+              ARC Computer Institute, run by Sandarbhdeep Educational Foundation (SEF), is an ISO 9001:2015 certified institute registered by  Ministry of Corporate Affairs. Founded by Anil Upadhyay, we aim to make quality computer education accessible to all.
               </p>
 <div className="space-y-4">
   <div className="flex space-x-4">
@@ -145,9 +145,11 @@ Delhi - 110042
                 </p>
                 <FaLocationDot className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
                 <p className="text-gray-400 text-sm">
-                 25 Futa Road, Near AAP Party Office
-West Kamal Vihar, Burari
-Delhi - 110084
+                  {/* < className="text-gray-600"> */}
+  Main 25, Futa Road, near Aam Aadmi Party Office,
+  West Kamal Vihar
+  Delhi – 110084
+
                 </p>
               </div>
 
@@ -220,9 +222,12 @@ Delhi - 110084
           
           <div className="mt-6 text-center">
             <p className="text-gray-600 text-xs">
-              Developed with ❤️ by <a href="https://wa.me/919718659236" className="text-blue-400 hover:underline">Ankit Singh</a> | 
-              <a href="https://www.avdevelopment.in/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-1">AV Development</a>
-            </p>
+  Technical Support Team  <span className="font-semibold"></span><br />
+  {/* Ankit Singh | Priya Sharma | Ravi Verma<br /> */}
+  Contact: <a href="mailto:sefdel333@gmail.com" className="text-blue-400 hover:underline">8860448368</a> | 
+  {/* <a href="https://wa.me/919718659236" className="text-blue-400 hover:underline ml-1">WhatsApp</a> */}
+</p>
+
           </div>
         </div>
       </div>
