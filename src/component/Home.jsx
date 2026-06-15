@@ -2,7 +2,6 @@
 import WhyChooseUs from "./WhyChooseUs";
  import MediaGallery from "./Gallery";
  import CareerBenefits from "./Build";
-  import CoursesScroll from "../utlis/CourseLoop";
  import { ContactSection } from "./Contact";
 import { ContactBranches } from "./ContactBranches";
 import StudentTestimonials from "./Student";
@@ -18,7 +17,7 @@ const HomeSection = () => {
        <div>
         <CoursesSection />
         <WhyChooseUs />
-         <StudentDetails />
+
         
         <TestimonialSection/>
         <MediaGallery />
@@ -27,7 +26,7 @@ const HomeSection = () => {
         <VideoShowcaseSection />
         <CareerBenefits />
         <ContactSection />
-        <CoursesScroll />
+        
       </div>
     </>
   );

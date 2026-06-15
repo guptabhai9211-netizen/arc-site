@@ -13,7 +13,6 @@ import QuizPage from "./pages/QuizPage";
 import MainLayout from "./layouts/MainLayout";
 import CourseDetails from "./component/CourseDetails";
 import CoursesSection from "./component/CoursesSection";
-import NotFound from "./utlis/NotFound";
 import HomeSection from "./component/Home"; // Add this if you want Home page
 import ScrollToTop from "./utlis/ScrollToTop";
 import { InstituteTimeline } from "./component/About";
@@ -75,8 +74,7 @@ function App() {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz-page" element={<QuizPage />} />
 
-        {/* 404 Fallback */}
-        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </Router>
   );

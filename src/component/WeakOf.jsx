@@ -1,6 +1,7 @@
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { FaUsers, FaStar, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { FaUsers, FaStar, FaTrophy, FaExclamationTriangle, FaChartLine, FaCalendarAlt, FaBookOpen, FaUserGraduate } from "react-icons/fa";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -9,36 +10,63 @@ const performanceLevels = {
     color: "bg-emerald-100 text-emerald-800",
     borderColor: "border-emerald-300",
     icon: <FaTrophy className="text-yellow-500" />,
-    gradient: "from-emerald-400 to-emerald-200",
-    percentage: 95
+    gradient: "from-emerald-500 to-emerald-300",
+    percentage: 95,
+    description: "Outstanding! Top of the class."
   },
   Good: { 
     color: "bg-blue-100 text-blue-800",
     borderColor: "border-blue-300",
     icon: <FaStar className="text-blue-500" />,
-    gradient: "from-blue-400 to-blue-200",
-    percentage: 75
+    gradient: "from-blue-500 to-blue-300",
+    percentage: 75,
+    description: "Good progress. Keep it up!"
   },
   Average: { 
     color: "bg-amber-100 text-amber-800",
     borderColor: "border-amber-300",
     icon: <FaStar className="text-amber-500" />,
-    gradient: "from-amber-400 to-amber-200",
-    percentage: 60
+    gradient: "from-amber-500 to-amber-300",
+    percentage: 60,
+    description: "Average. Need consistent effort."
   },
   Poor: { 
     color: "bg-red-100 text-red-800",
     borderColor: "border-red-300",
     icon: <FaExclamationTriangle className="text-red-500" />,
-    gradient: "from-red-400 to-red-200",
-    percentage: 40
+    gradient: "from-red-500 to-red-300",
+    percentage: 40,
+    description: "Needs improvement. Extra help required."
   }
+};
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, delayChildren: 0.3 }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 12, stiffness: 100 } }
 };
 
 export default function StudentDetails() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const progressRef = useRef(null);
+  const isProgressInView = useInView(progressRef, { once: true, margin: "-50px" });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isProgressInView) {
+      controls.start("visible");
+    }
+  }, [isProgressInView, controls]);
 
   useEffect(() => {
     async function fetchStudent() {
@@ -49,7 +77,6 @@ export default function StudentDetails() {
         setError("");
       } catch (err) {
         setError("No student data available");
-        // console.error("API Error:", err);
       } finally {
         setLoading(false);
       }
@@ -59,44 +86,29 @@ export default function StudentDetails() {
 
   if (loading) {
     return (
-      <div className="w-full">
+      <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
         <div className="bg-[#0C0950] py-4 text-center">
           <h1 className="text-2xl font-bold text-white">ARC Computer Institute STUDENT</h1>
         </div>
-        <div className="max-w-md mx-auto p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-xl space-y-4 animate-pulse mt-8">
-          <div className="flex justify-center">
-            <div className="w-36 h-36 rounded-full bg-gray-200"></div>
-          </div>
-          <div className="space-y-3">
-            <div className="h-7 bg-gray-200 rounded w-3/4 mx-auto"></div>
-            <div className="h-5 bg-gray-200 rounded w-1/2 mx-auto"></div>
-          </div>
+        <div className="flex justify-center items-center h-96">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+            className="w-16 h-16 border-4 border-[#0C0950] border-t-transparent rounded-full"
+          />
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (error || !student) {
     return (
-      <div className="w-full">
+      <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
         <div className="bg-[#0C0950] py-4 text-center">
           <h1 className="text-2xl font-bold text-white">ARC Computer Institute STUDENT</h1>
         </div>
-        <div className="max-w-md mx-auto p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-xl text-center mt-8">
-          <p className="text-red-500 font-medium">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!student) {
-    return (
-      <div className="w-full">
-        <div className="bg-[#0C0950] py-4 text-center">
-          <h1 className="text-2xl font-bold text-white">ARC Computer Institute STUDENT</h1>
-        </div>
-        <div className="max-w-md mx-auto p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-xl text-center mt-8">
-          <p className="text-gray-500">No student data found</p>
+        <div className="max-w-md mx-auto p-8 bg-white rounded-2xl shadow-xl text-center mt-20">
+          <p className="text-red-500 font-medium">{error || "No student data found"}</p>
         </div>
       </div>
     );
@@ -104,111 +116,230 @@ export default function StudentDetails() {
 
   const performanceData = performanceLevels[student.performance] || performanceLevels.Average;
 
-  return (
-    <div className="w-full">
-      {/* Header */}
-      <div className="bg-[#0C0950] py-4 text-center">
-        <h1 className="text-2xl font-bold text-white">ARC Computer Institute STUDENT</h1>
-      </div>
+  // Mock additional data (you can replace with actual API fields)
+  const additionalMetrics = {
+    attendance: student.attendance || 85,
+    assignmentsCompleted: student.assignments || 12,
+    totalAssignments: 15,
+    upcomingTests: 3,
+    rank: student.rank || "8th",
+    totalStudents: 45
+  };
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-          {/* Left Side Text (Desktop only) */}
-          <div className="hidden lg:block flex-1 max-w-lg mb-98">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#0C0950] mb-4">Student Performance Analysis</h2>
-              <p className="text-gray-700 mb-4">
-                At Max Education, we closely monitor each student's progress to ensure they reach their full potential.
+  return (
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50/30">
+      {/* Header with animated gradient */}
+      <motion.div 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+        className="bg-gradient-to-r from-[#0C0950] to-[#3A36DB] py-6 text-center shadow-lg"
+      >
+        <h1 className="text-2xl md:text-3xl font-bold text-white">ARC Computer Institute STUDENT</h1>
+        <p className="text-indigo-200 text-sm mt-1">Personal Performance Dashboard</p>
+      </motion.div>
+
+      <div className="container mx-auto px-4 py-12">
+        <motion.div 
+          className="flex flex-col lg:flex-row items-stretch justify-center gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Left Side - Performance Insights (Desktop) */}
+          <motion.div variants={itemVariants} className="hidden lg:block flex-1 max-w-md">
+            <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-indigo-100 h-full">
+              <h2 className="text-2xl font-bold text-[#0C0950] mb-4 flex items-center gap-2">
+                <FaChartLine className="text-[#3A36DB]" />
+                Performance Insights
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Detailed analysis of {student.name}'s academic journey at Max Education.
               </p>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="bg-blue-100 p-2 rounded-full mr-3">
-                    <FaUsers className="text-blue-600" />
+
+              {/* Metrics Grid */}
+              <div className="space-y-5">
+                <div className="flex items-center gap-3 p-3 bg-indigo-50 rounded-xl">
+                  <div className="bg-white p-2 rounded-full shadow">
+                    <FaCalendarAlt className="text-[#3A36DB]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800">Batch Performance</h3>
-                    <p className="text-gray-600">Compare with your batchmates' average performance</p>
+                    <h3 className="font-semibold text-gray-800">Attendance Rate</h3>
+                    <p className="text-2xl font-bold text-[#0C0950]">{additionalMetrics.attendance}%</p>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <motion.div 
+                        className="bg-gradient-to-r from-[#0C0950] to-[#3A36DB] h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${additionalMetrics.attendance}%` }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <div className="bg-amber-100 p-2 rounded-full mr-3">
-                    <FaStar className="text-amber-600" />
+
+                <div className="flex items-center gap-3 p-3 bg-indigo-50 rounded-xl">
+                  <div className="bg-white p-2 rounded-full shadow">
+                    <FaBookOpen className="text-[#3A36DB]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800">Improvement Areas</h3>
-                    <p className="text-gray-600">Personalized suggestions based on your performance</p>
+                    <h3 className="font-semibold text-gray-800">Assignments Completed</h3>
+                    <p className="text-2xl font-bold text-[#0C0950]">{additionalMetrics.assignmentsCompleted}/{additionalMetrics.totalAssignments}</p>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <motion.div 
+                        className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(additionalMetrics.assignmentsCompleted / additionalMetrics.totalAssignments) * 100}%` }}
+                        transition={{ duration: 1, delay: 0.7 }}
+                      />
+                    </div>
                   </div>
                 </div>
+
+                <div className="flex items-center gap-3 p-3 bg-indigo-50 rounded-xl">
+                  <div className="bg-white p-2 rounded-full shadow">
+                    <FaUserGraduate className="text-[#3A36DB]" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800">Class Rank</h3>
+                    <p className="text-2xl font-bold text-[#0C0950]">{additionalMetrics.rank} / {additionalMetrics.totalStudents}</p>
+                    <p className="text-sm text-gray-500">Out of {additionalMetrics.totalStudents} students</p>
+                  </div>
+                </div>
+
                 {student.performance === "Poor" && (
-                  <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
+                  <motion.div 
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg"
+                  >
                     <h4 className="flex items-center text-sm font-medium text-red-700 mb-2">
                       <FaExclamationTriangle className="mr-2" />
-                      Focus Areas
+                      Action Required
                     </h4>
                     <p className="text-sm text-gray-700">
-                      This student needs additional support in core concepts and regular practice sessions.
+                      {student.name} needs additional support in core concepts. Recommended: extra tutoring sessions and daily practice.
                     </p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Student Card */}
-          <div className="w-full  lg:flex-1 max-w-md">
-            <div className="bg-gradient-to-br bg-[#0C0950] rounded-2xl shadow-xl overflow-hidden p-8 transition-all duration-300 hover:shadow-2xl">
+          {/* Main Student Card */}
+          <motion.div variants={itemVariants} className="w-full lg:flex-1 max-w-md mx-auto">
+            <motion.div 
+              className="bg-gradient-to-br from-[#0C0950] to-[#1a1760] rounded-2xl shadow-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 hover:shadow-3xl"
+              whileHover={{ y: -5 }}
+            >
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-white bg-red-600 px-4 py-1 rounded-full mb-4">Performance Analysis</h1>
+                <motion.div 
+                  className="bg-red-500 px-4 py-1 rounded-full mb-4"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <span className="text-white text-sm font-semibold">Performance Analysis</span>
+                </motion.div>
                 
-                {/* Student Photo with Glow Effect */}
-                <div className="relative mb-6 group mt-2">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent via-transparent to-white opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                  <img
-                    src={student.photo || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"}
-                    alt="Student"
-                    className="w-60 h-60 rounded-full object-cover border-4 border-white shadow-2xl transform group-hover:scale-105 transition-transform duration-300"
+                {/* Photo with animated border glow */}
+                <div className="relative mb-6 group">
+                  <motion.div 
+                    className="absolute -inset-1 bg-gradient-to-r from-red-400 to-purple-600 rounded-full opacity-75 blur-md group-hover:opacity-100 transition duration-300"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                   />
-                  <div className={`absolute -bottom-2 -right-2 p-3 rounded-full ${performanceData.color} border-2 ${performanceData.borderColor} shadow-md`}>
-                    {performanceData.icon}
+                  <div className="relative">
+                    <img
+                      src={student.photo || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"}
+                      alt={student.name}
+                      className="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-white shadow-2xl transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className={`absolute -bottom-2 -right-2 p-3 rounded-full ${performanceData.color} border-2 ${performanceData.borderColor} shadow-md`}>
+                      {performanceData.icon}
+                    </div>
                   </div>
                 </div>
 
-                {/* Student Name and Batch */}
-                <h2 className="text-3xl font-bold text-red-400 mb-2">{student.name}</h2>
-                <div className="flex items-center justify-center text-gray-300 mb-6">
-                  <FaUsers className="mr-2 text-red-400 text-lg" />
-                  <span className="text-white text-lg">{student.batchName}</span>
+                {/* Name and Batch */}
+                <h2 className="text-2xl md:text-3xl font-bold text-red-400 mb-1">{student.name}</h2>
+                <div className="flex items-center justify-center text-gray-300 mb-4">
+                  <FaUsers className="mr-2 text-red-400" />
+                  <span className="text-white">{student.batchName}</span>
                 </div>
 
-                {/* Performance Display with Gradient Background */}
-                <div className={`bg-gradient-to-r ${performanceData.gradient} text-white px-6 py-2 rounded-full mb-6 shadow-md`}>
-                  <div className="flex items-center justify-center">
-                    <span className="font-semibold text-lg mr-2">{student.performance}</span>
-                    {React.cloneElement(performanceData.icon, { className: "text-white text-xl" })}
+                {/* Performance Badge */}
+                <motion.div 
+                  className={`bg-gradient-to-r ${performanceData.gradient} text-white px-5 py-1.5 rounded-full mb-5 shadow-md`}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="font-semibold">{student.performance}</span>
+                    {React.cloneElement(performanceData.icon, { className: "text-white" })}
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Performance Progress Circle with Glow Effect */}
-                <div className="w-48 h-48 mb-4 relative">
+                {/* Progress Circle */}
+                <div ref={progressRef} className="w-44 h-44 md:w-52 md:h-52 mb-4 relative">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className={`w-40 h-40 rounded-full ${performanceData.color} bg-opacity-20 blur-md animate-pulse`}></div>
+                    <div className={`w-36 h-36 md:w-44 md:h-44 rounded-full ${performanceData.color} bg-opacity-20 blur-md animate-pulse`} />
                   </div>
                   <CircularProgressbar
                     value={performanceData.percentage}
                     text={`${performanceData.percentage}%`}
                     styles={buildStyles({
-                      pathColor: performanceData.color.split('-')[2],
-                      textColor: performanceData.color.split('-')[2],
-                      trailColor: '#f3f4f6',
-                      textSize: '32px',
+                      pathColor: performanceData.performance === "Excellent" ? "#10b981" : 
+                                performanceData.performance === "Good" ? "#3b82f6" :
+                                performanceData.performance === "Average" ? "#f59e0b" : "#ef4444",
+                      textColor: "#ffffff",
+                      trailColor: "rgba(255,255,255,0.2)",
+                      textSize: "28px",
                       pathTransitionDuration: 1.5,
                     })}
                   />
                 </div>
+
+                {/* Performance description */}
+                <p className="text-indigo-200 text-sm mt-2">{performanceData.description}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* Mobile-only metrics (visible only on mobile) */}
+        <div className="lg:hidden mt-8">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-xl p-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <h3 className="font-bold text-[#0C0950] text-lg mb-4 flex items-center gap-2">
+              <FaChartLine className="text-[#3A36DB]" />
+              Performance Metrics
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm">
+                  <span>Attendance</span>
+                  <span className="font-semibold">{additionalMetrics.attendance}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div className="bg-gradient-to-r from-[#0C0950] to-[#3A36DB] h-2 rounded-full" style={{ width: `${additionalMetrics.attendance}%` }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm">
+                  <span>Assignments</span>
+                  <span className="font-semibold">{additionalMetrics.assignmentsCompleted}/{additionalMetrics.totalAssignments}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full" style={{ width: `${(additionalMetrics.assignmentsCompleted / additionalMetrics.totalAssignments) * 100}%` }} />
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Class Rank</span>
+                <span className="font-bold text-[#0C0950]">{additionalMetrics.rank} / {additionalMetrics.totalStudents}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

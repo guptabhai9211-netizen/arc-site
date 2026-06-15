@@ -1,13 +1,10 @@
- import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion, useMotionValue, useTransform, useSpring, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-// import { Helmet } from "react-helmet";
- import { Helmet } from "react-helmet-async";
-
+import { Helmet } from "react-helmet-async";
+import { useRef, useState, useEffect } from "react";
 
 const WhyChooseUs = () => {
-
-const structuredData = {
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "ARC Institute",
@@ -33,39 +30,59 @@ const structuredData = {
     }
   };
 
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { threshold: 0.1, triggerOnce: false });
+  const [counts, setCounts] = useState({ students: 0, placement: 0, partners: 0, rating: 0 });
 
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: false
-  });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
+  // Animated counters
+  useEffect(() => {
+    if (isInView) {
+      const duration = 2000;
+      const step = 20;
+      const targets = { students: 9000, placement: 95, partners: 10, rating: 4.8 };
+      const startTime = performance.now();
+      
+      const animate = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        setCounts({
+          students: Math.floor(targets.students * progress),
+          placement: Math.floor(targets.placement * progress),
+          partners: Math.floor(targets.partners * progress),
+          rating: (targets.rating * progress).toFixed(1)
+        });
+        if (progress < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
     }
-  };
+  }, [isInView]);
 
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20
-      }
-    }
-  };
+  // 3D Tilt hook for cards
+  const useTilt = (ref) => {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const rotateX = useTransform(y, [-100, 100], [6, -6]);
+    const rotateY = useTransform(x, [-100, 100], [-6, 6]);
+    const springRotateX = useSpring(rotateX, { damping: 20, stiffness: 300 });
+    const springRotateY = useSpring(rotateY, { damping: 20, stiffness: 300 });
 
-  const fadeInVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.8 } }
+    const handleMouseMove = (e) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      x.set(mouseX);
+      y.set(mouseY);
+    };
+
+    const handleMouseLeave = () => {
+      x.set(0);
+      y.set(0);
+    };
+
+    return { rotateX: springRotateX, rotateY: springRotateY, handleMouseMove, handleMouseLeave };
   };
 
   const features = [
@@ -76,7 +93,8 @@ const structuredData = {
         </svg>
       ),
       title: "Industry-Recognized Certification",
-      description: "Our courses come with certifications recognized by top tech companies in Delhi and nationwide."
+      description: "Our courses come with certifications recognized by top tech companies in Delhi and nationwide.",
+      gradient: "from-indigo-50 to-white"
     },
     {
       icon: (
@@ -85,7 +103,8 @@ const structuredData = {
         </svg>
       ),
       title: "Expert Instructors",
-      description: "Learn from Delhi's top industry professionals with 8+ years of real-world experience."
+      description: "Learn from Delhi's top industry professionals with 8+ years of real-world experience.",
+      gradient: "from-blue-50 to-white"
     },
     {
       icon: (
@@ -94,7 +113,8 @@ const structuredData = {
         </svg>
       ),
       title: "Project-Based Learning",
-      description: "Build real projects that you can showcase in your portfolio to Delhi employers."
+      description: "Build real projects that you can showcase in your portfolio to Delhi employers.",
+      gradient: "from-purple-50 to-white"
     },
     {
       icon: (
@@ -103,7 +123,8 @@ const structuredData = {
         </svg>
       ),
       title: "Job Placement Support",
-      description: "95% of our graduates land tech jobs in Delhi within 3 months of completion."
+      description: "95% of our graduates land tech jobs in Delhi within 3 months of completion.",
+      gradient: "from-amber-50 to-white"
     },
     {
       icon: (
@@ -112,7 +133,8 @@ const structuredData = {
         </svg>
       ),
       title: "Flexible Learning Options",
-      description: "Choose between online, hybrid, or in-person learning at our Delhi centers."
+      description: "Choose between online, hybrid, or in-person learning at our Delhi centers.",
+      gradient: "from-green-50 to-white"
     },
     {
       icon: (
@@ -121,175 +143,183 @@ const structuredData = {
         </svg>
       ),
       title: "Cutting-Edge Curriculum",
-      description: "Our Delhi-focused courses are updated quarterly to reflect industry trends."
+      description: "Our Delhi-focused courses are updated quarterly to reflect industry trends.",
+      gradient: "from-rose-50 to-white"
     }
   ];
 
+  // Container variants for stagger
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100, damping: 15 } }
+  };
+
   return (
     <>
-     
-    <Helmet>
-      <title>Why Choose ARC Institute? | Best IT Training & Certification in Delhi</title>
-      <meta name="description" content="ARC Institute is Delhi's premier IT training center offering industry-aligned courses, expert trainers, 95% placement record, and government-recognized certifications. Start your tech career today!" />
-      <meta name="keywords" content="best computer institute Delhi, IT training Delhi, certified computer courses, job placement support Delhi, IT certification courses, ARC Institute reviews, project-based learning, affordable IT training, government recognized computer institute" />
-      <meta property="og:title" content="Why ARC Institute is Delhi's #1 Choice for IT Training & Certification" />
-      <meta property="og:description" content="Get job-ready IT skills with Delhi's most trusted computer institute. 95% placement rate, industry-expert trainers, and government-recognized certifications." />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://www.arcinstitute.in/why-choose-us" />
-      <meta property="og:image" content="https://www.arcinstitute.in/logo.jpg" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Top Reasons to Choose ARC Institute for IT Training in Delhi" />
-      <meta name="twitter:description" content="Industry-aligned curriculum, placement support, and expert trainers make ARC Institute Delhi's best computer education center." />
-      <link rel="canonical" href="https://www.arcinstitute.in/why-choose-us" />
-      
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
-    </Helmet>
-  
+      <Helmet>
+        <title>Why Choose ARC Institute? | Best IT Training & Certification in Delhi</title>
+        <meta name="description" content="ARC Institute is Delhi's premier IT training center offering industry-aligned courses, expert trainers, 95% placement record, and government-recognized certifications." />
+        <meta name="keywords" content="best computer institute Delhi, IT training Delhi, certified computer courses, job placement support Delhi, IT certification courses" />
+        <meta property="og:title" content="Why ARC Institute is Delhi's #1 Choice for IT Training & Certification" />
+        <meta property="og:description" content="Get job-ready IT skills with Delhi's most trusted computer institute. 95% placement rate, industry-expert trainers." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.arcinstitute.in/why-choose-us" />
+        <meta property="og:image" content="https://www.arcinstitute.in/logo.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://www.arcinstitute.in/why-choose-us" />
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      </Helmet>
 
       <section
-        id="why-choose-us"
-        className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden"
-        ref={ref}
-        itemScope
-        itemType="https://schema.org/ItemList"
+        ref={sectionRef}
+        className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-white via-indigo-50/30 to-white"
       >
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0C0950] to-[#3A36DB] mask mask-circle mix-blend-overlay"></div>
+        {/* Animated floating shapes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-20 left-10 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            animate={{ y: [0, 40, 0], x: [0, 20, 0] }}
+            transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            animate={{ y: [0, -30, 0], x: [0, -20, 0] }}
+            transition={{ repeat: Infinity, duration: 18, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.div
+            className="absolute top-1/3 left-1/2 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+          />
         </div>
 
-        <div className="relative max-w-7xl mx-auto">
+        <div className="relative max-w-7xl mx-auto z-10">
           {/* Section Header */}
           <motion.div
             className="text-center mb-16"
             initial="hidden"
-            animate={inView ? "visible" : "hidden"}
+            animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
           >
             <motion.h1
-              className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
               variants={itemVariants}
-              itemProp="name"
             >
-              Why Choose <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]">ARC Institute Delhi?</span>
+              Why Choose{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]">
+                ARC Institute Delhi?
+              </span>
             </motion.h1>
             <motion.p
               className="text-lg text-gray-600 max-w-3xl mx-auto"
               variants={itemVariants}
-              itemProp="description"
             >
               Delhi's premier IT training institute with proven results that transform careers since 2010
             </motion.p>
           </motion.div>
 
-          {/* Features Grid */}
+          {/* Features Grid with 3D Tilt */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial="hidden"
-            animate={inView ? "visible" : "hidden"}
+            animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
           >
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <div className="flex items-start">
-                  <div className="flex-shrink-0 bg-opacity-10 p-3 rounded-lg text-[#0C0950]">
-                    {feature.icon}
+            {features.map((feature, idx) => {
+              const cardRef = useRef(null);
+              const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt(cardRef);
+              return (
+                <motion.div
+                  key={idx}
+                  ref={cardRef}
+                  variants={itemVariants}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group"
+                >
+                  <div className={`p-6 bg-gradient-to-br ${feature.gradient}`}>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 text-[#3A36DB] group-hover:scale-110 transition-transform duration-300">
+                        {feature.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                        <p className="text-gray-600">{feature.description}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="ml-4">
-                    <h2 className="text-xl font-bold text-gray-900 mb-2" itemProp="name">{feature.title}</h2>
-                    <p className="text-gray-600" itemProp="description">{feature.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-[#0C0950] to-[#3A36DB] transition-all duration-500"></div>
+                </motion.div>
+              );
+            })}
           </motion.div>
 
-          {/* Stats Section */}
+          {/* Stats Section with Animated Counters */}
           <motion.div
-            className="mt-20 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white"
+            className="mt-20 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white shadow-2xl"
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
-            transition={{ duration: 0.8 }}
-            itemScope
-            itemType="https://schema.org/ItemList"
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <h2 className="sr-only">Our Achievements</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: inView ? 1 : 0.8 }}
-                transition={{ delay: 0.2 }}
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <div className="text-4xl font-bold mb-2" itemProp="name">9K+</div>
-                <div className="text-sm opacity-80" itemProp="description">Students Trained</div>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
+                <div className="text-4xl font-bold mb-2">{counts.students.toLocaleString()}+</div>
+                <div className="text-sm opacity-80">Students Trained</div>
               </motion.div>
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: inView ? 1 : 0.8 }}
-                transition={{ delay: 0.4 }}
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <div className="text-4xl font-bold mb-2" itemProp="name">95%</div>
-                <div className="text-sm opacity-80" itemProp="description">Placement Rate</div>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
+                <div className="text-4xl font-bold mb-2">{counts.placement}%</div>
+                <div className="text-sm opacity-80">Placement Rate</div>
               </motion.div>
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: inView ? 1 : 0.8 }}
-                transition={{ delay: 0.6 }}
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <div className="text-4xl font-bold mb-2" itemProp="name">10+</div>
-                <div className="text-sm opacity-80" itemProp="description">Hiring Partners</div>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
+                <div className="text-4xl font-bold mb-2">{counts.partners}+</div>
+                <div className="text-sm opacity-80">Hiring Partners</div>
               </motion.div>
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: inView ? 1 : 0.8 }}
-                transition={{ delay: 0.8 }}
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <div className="text-4xl font-bold mb-2" itemProp="name">4.8/5</div>
-                <div className="text-sm opacity-80" itemProp="description">Student Satisfaction</div>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
+                <div className="text-4xl font-bold mb-2">{counts.rating}/5</div>
+                <div className="text-sm opacity-80">Student Satisfaction</div>
               </motion.div>
             </div>
           </motion.div>
 
-          {/* CTA */}
+          {/* CTA Button with Glow Effect */}
           <motion.div
             className="mt-16 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: inView ? 1 : 0 }}
-            transition={{ delay: 1 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
           >
-            <Link to="/contactSection" itemProp="url">
+            <Link to="/contactSection">
               <motion.button
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.5)" }}
                 whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
-                aria-label="Enroll Now at ARC Computer Institute Delhi"
+                className="relative px-10 py-4 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all overflow-hidden group"
               >
-                Start Your Tech Journey Today
+                <span className="relative z-10 flex items-center gap-2">
+                  Start Your Tech Journey Today 🚀
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.2 }}
+                  >
+                    →
+                  </motion.span>
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
               </motion.button>
             </Link>
-             
           </motion.div>
         </div>
       </section>

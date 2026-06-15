@@ -1,152 +1,133 @@
-  "use client";
+"use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import instituteLogo from "/logo.jpg"; // Update this path as needed
-import { HoveredLink } from "../component/ui/navbar-menu"; // Ensure this is correct
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
+import { 
+  FaHome, 
+  FaBook, 
+  FaInfoCircle, 
+  FaEnvelope, 
+  FaUserGraduate, 
+  FaBars, 
+  FaTimes,
+  FaChevronDown,
+  FaLaptopCode,
+  FaChartLine,
+  FaPalette,
+  FaDatabase,
+  FaSignInAlt,
+  FaUser,
+  FaLock,
+  FaTimesCircle
+} from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Home");
+  const [scrolled, setScrolled] = useState(false);
+  const [admissionsDropdownOpen, setAdmissionsDropdownOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+  const location = useLocation();
+  const admissionsDropdownRef = useRef(null);
+  const loginModalRef = useRef(null);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Courses", path: "/courses" },
-    { name: "About", path: "/about" },
-    { name: "Admissions", path: "/contactSection" },
-    // { name: "Placements", path: "/placements" },
-    { name: "Contact", path: "/contactSection" },
+    { name: "Home", path: "/", icon: FaHome },
+    { name: "Courses", path: "/courses", icon: FaBook },
+    { name: "About", path: "/about", icon: FaInfoCircle },
+    { name: "Admissions", path: "/contactSection", icon: FaUserGraduate, hasDropdown: true },
+    { name: "Contact", path: "/contactSection", icon: FaEnvelope },
   ];
 
-  const coursesData = [
-  {
-    name: "Basic Computer",
-    path: "/courses/basic-computer",
-    image: "https://images.pexels.com/photos/392018/pexels-photo-392018.jpeg",
-    description: "Fundamentals of computer operations and software tools",
-    duration: "3 months",
-    level: "Beginner"
-  },
-  {
-    name: "Graphic Designing",
-    path: "/courses/graphic-designing",
-    image: "https://images.pexels.com/photos/2422286/pexels-photo-2422286.jpeg",
-    description: "Photoshop, Corel Draw, InDesign, Illustrator",
-    duration: "5 months",
-    level: "Intermediate"
-  },
-  {
-    name: "Web Designing",
-    path: "/courses/web-designing",
-    image: "https://images.pexels.com/photos/943096/pexels-photo-943096.jpeg",
-    description: "HTML, DHTML, CSS, JavaScript, Core Python",
-    duration: "5 months",
-    level: "Intermediate"
-  },
-  {
-    name: "CAAD",
-    path: "/courses/caad",
-    image: "https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg",
-    description: "Certificate in Advanced Accounting & Designing",
-    duration: "10 months",
-    level: "Advanced"
-  },
-  {
-    name: "CCA",
-    path: "/courses/cca",
-    image: "https://images.pexels.com/photos/4974914/pexels-photo-4974914.jpeg",
-    description: "Certificate in Computer Accounting",
-    duration: "6 months",
-    level: "Beginner"
-  },
-  {
-    name: "ACA",
-    path: "/courses/aca",
-    image: "https://images.pexels.com/photos/1181216/pexels-photo-1181216.jpeg",
-    description: "Advanced Certificate in Accounting",
-    duration: "8 months",
-    level: "Intermediate"
-  },
-  {
-    name: "ADCA",
-    path: "/courses/adca",
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=300&h=200&fit=crop",
-    description: "Advanced Diploma in Computer Application",
-    duration: "12 months",
-    level: "Advanced"
-  },
-  {
-    name: "Digital Marketing",
-    path: "/courses/digital-marketing",
-    image: "https://images.pexels.com/photos/4134784/pexels-photo-4134784.jpeg",
-    description: "SEO, SMO, Content Marketing, PPC Advertising",
-    duration: "4 months",
-    level: "Intermediate"
-  },
-  {
-    name: "Python",
-    path: "/courses/python",
-    image: "https://images.pexels.com/photos/3183202/pexels-photo-3183202.jpeg",
-    description: "Core Python programming concepts",
-    duration: "4 months",
-    level: "Intermediate"
-  },
-  {
-    name: "Advanced Excel",
-    path: "/courses/advanced-excel",
-    image: "https://images.pexels.com/photos/925786/pexels-photo-925786.jpeg",
-    description: "Pivot Tables, Dashboards, Advanced Formulas",
-    duration: "1 month",
-    level: "Advanced"
-  },
-  {
-    name: "Busy",
-    path: "/courses/busy",
-    image: "https://images.pexels.com/photos/3183202/pexels-photo-3183202.jpeg",
-    description: "Busy Accounting Software training",
-    duration: "1 month",
-    level: "Intermediate"
-  },
-  {
-    name: "Tally Prime",
-    path: "/courses/tally-prime",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
-    description: "Tally Prime with GST features",
-    duration: "3 months",
-    level: "Intermediate"
-  },
-  {
-    name: "CCC",
-    path: "/courses/ccc",
-    image: "https://images.pexels.com/photos/927022/pexels-photo-927022.jpeg",
-    description: "Course on Computer Concept",
-    duration: "4 months",
-    level: "Beginner"
-  }
-];
- const admissionSteps = [
-  {
-    step: "1",
-    title: "Apply Now",
-    description: "WhatsApp us, fill the contact form, visit our branches, or call 8860448368"
-  }
-];
+  const admissionSteps = [
+    { step: "1", title: "Apply Now", description: "WhatsApp us, fill the contact form, visit our branches, or call 8860448368", icon: FaUserGraduate },
+    { step: "2", title: "Counseling Session", description: "Free career counseling to choose the right course", icon: FaUserGraduate },
+    { step: "3", title: "Registration", description: "Complete registration with minimal fee", icon: FaBook },
+    { step: "4", title: "Start Learning", description: "Begin your journey with expert trainers", icon: FaLaptopCode },
+  ];
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const mobileVariants = {
-    open: { opacity: 1, x: 0 },
-    closed: { opacity: 0, x: "100%" },
+  // Handle click outside dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (admissionsDropdownRef.current && !admissionsDropdownRef.current.contains(event.target)) {
+        setAdmissionsDropdownOpen(false);
+      }
+      if (loginModalRef.current && !loginModalRef.current.contains(event.target)) {
+        setShowLoginModal(false);
+        setLoginError("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Check if user is already logged in (from localStorage)
+  useEffect(() => {
+    const storedUser = localStorage.getItem("arcInstituteUser");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setIsLoggedIn(true);
+      setUserName(user.name);
+    }
+  }, []);
+
+  const isActive = (path) => location.pathname === path;
+
+  // Login Handler
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setLoginError("");
+    
+    // Demo credentials for testing
+    const demoCredentials = {
+      email: "student@arc.com",
+      password: "student123"
+    };
+
+    if (loginEmail === demoCredentials.email && loginPassword === demoCredentials.password) {
+      const userData = {
+        name: "Student User",
+        email: loginEmail,
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem("arcInstituteUser", JSON.stringify(userData));
+      setIsLoggedIn(true);
+      setUserName(userData.name);
+      setShowLoginModal(false);
+      setLoginEmail("");
+      setLoginPassword("");
+      setLoginError("");
+    } else {
+      setLoginError("Invalid email or password. Use student@arc.com / student123");
+    }
+  };
+
+  // Logout Handler
+  const handleLogout = () => {
+    localStorage.removeItem("arcInstituteUser");
+    setIsLoggedIn(false);
+    setUserName("");
   };
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
+      transition: { staggerChildren: 0.05, delayChildren: 0.1 },
     },
   };
 
@@ -155,365 +136,414 @@ const Navbar = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { y: { stiffness: 1000, velocity: -100 } },
+      transition: { type: "spring", stiffness: 300, damping: 24 },
     },
   };
 
+  const mobileVariants = {
+    open: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
+    closed: { opacity: 0, x: "100%", transition: { type: "spring", stiffness: 300, damping: 30 } },
+  };
+
   return (
-    <nav className="bg-gradient-to-r from-navy-800 to-navy-900 text-white shadow-lg sticky top-0 z-50">
-      {/* Announcement Bar */}
-      <div className="bg-[#2A1458]  text-white text-sm text-center py-1 px-4">
-        🚀 Enroll Now for Summer Batch 2025 - Limited Seats Available!
-      </div>
+    <>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? "bg-white shadow-xl py-2" : "bg-white/95 backdrop-blur-md shadow-lg py-3"
+      }`}>
+        {/* Announcement Bar */}
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white text-sm text-center py-2.5 px-4 overflow-hidden"
+        >
+          <div className="container mx-auto">
+            <motion.p
+              animate={{ x: [0, -5, 5, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 2, repeatDelay: 5 }}
+              className="inline-block"
+            >
+              🚀 Enroll Now for Summer Batch 2025 - Limited Seats Available! 
+              <span className="hidden sm:inline"> Call 8860448368 for Free Counseling</span>
+            </motion.p>
+          </div>
+        </motion.div>
 
-      <div className="container mx-auto px-4 bg-white ">
-        <div className="flex justify-between items-center py-3">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center group"
-          >
-            <Link to="/">
-              <img
-                src={instituteLogo}
-                alt="Institute Logo"
-                className="h-14 w-auto mr-3 transition-transform duration-300 group-hover:scale-105"
-              />
-            </Link>
-            <Link to="/">
-              <div>
-                <h1 className="text-xl text-[#0C0950] font-bold bg-clip-text bg-gradient-to-r from-blue-300 to-blue-100">
-                  ARC Computer Institute
-                </h1>
-                <p className="text-xs text-[#0C0950]">Innovate • Code • Succeed</p>
-              </div>
-            </Link>
-          </motion.div>
-
-          {/* Desktop Nav */}
-          <motion.div
-            className="hidden md:flex space-x-1"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            {navLinks.map((link) => {
-              // Courses Dropdown
-              if (link.name === "Courses") {
-                return (
-                  <motion.div
-                    key={link.name}
-                    className="relative group"
-                    variants={itemVariants}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 cursor-pointer ${
-                        activeLink === link.name
-                          ? "text-white bg-blue-600 bg-opacity-20 rounded-lg"
-                          : "text-[#0C0950] hover:text-blue-600"
-                      }`}
-                      onMouseEnter={() => setActiveLink(link.name)}
-                      onMouseLeave={() => setActiveLink("Home")}
-                    >
-                      {link.name}
-                    </Link>
-
-                    {/* Courses Dropdown */}
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="fixed top-[88px] left-0 right-0 w-screen bg-white text-[#0C0950] shadow-2xl p-6 z-50 transition-all hidden group-hover:block border-b border-gray-200 overflow-hidden"
-                    > 
-                      <div className="container mx-auto">
-                        <div className="mb-4">
-                          <h3 className="text-lg font-bold text-gray-800 mb-2">Our Courses</h3>
-                          <p className="text-sm text-gray-600">Choose from our comprehensive range of technology courses</p>
-                        </div>
-                        
-                        <div className="grid grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-                          {coursesData.map((course) => (
-                            <Link to={course.path} key={course.name}>
-                              <motion.div
-                                className="group/course bg-gray-50 rounded-lg p-3 hover:bg-blue-50 transition-all duration-300 cursor-pointer border border-gray-100 hover:border-blue-200"
-                                whileHover={{ scale: 1.02 }}
-                              >
-                                <div className="mb-3">
-                                  <img
-                                    src={course.image}
-                                    alt={course.name}
-                                    className="w-full h-24 object-cover rounded-md shadow-sm group-hover/course:shadow-md transition-shadow"
-                                  />
-                                </div>
-                                <h4 className="font-semibold text-sm text-gray-800 mb-1 group-hover/course:text-blue-600 transition-colors">
-                                  {course.name}
-                                </h4>
-                                <p className="text-xs text-gray-600 mb-2 line-clamp-2">
-                                  {course.description}
-                                </p>
-                                <div className="flex justify-between items-center text-xs">
-                                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                                    {course.duration}
-                                  </span>
-                                  <span className="text-gray-500">
-                                    {course.level}
-                                  </span>
-                                </div>
-                              </motion.div>
-                            </Link>
-                          ))}
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <div className="flex justify-between items-center">
-                            <p className="text-sm text-gray-600">Can't find what you're looking for?</p>
-                            <Link 
-                              to="/courses" 
-                              className="text-sm bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                            >
-                              View All Courses
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                );
-              }
-
-              // Admissions Dropdown
-              if (link.name === "Admissions") {
-                return (
-                  <motion.div
-                    key={link.name}
-                    className="relative group"
-                    variants={itemVariants}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                        activeLink === link.name
-                          ? "text-white bg-blue-600 bg-opacity-20 rounded-lg"
-                          : "text-[#0C0950] hover:text-blue-600"
-                      }`}
-                      onClick={() => setActiveLink(link.name)}
-                      onMouseEnter={() => setActiveLink(link.name)}
-                      onMouseLeave={() => setActiveLink("Home")}
-                    >
-                      {link.name}
-                      {activeLink === link.name && (
-                        <motion.span
-                          className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-400"
-                          layoutId="activeIndicator"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
-                      )}
-                    </Link>
-
-                    {/* Admissions Process Tooltip */}
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-7 left-0 w-[400px] bg-white text-[#0C0950] rounded-xl shadow-2xl p-4 z-50 transition-all hidden group-hover:block border border-gray-200"
-                    >
-                      <div className="mb-3">
-                        <h3 className="text-md font-bold text-gray-800 mb-1">Admission Process</h3>
-                        <p className="text-xs text-gray-600">Simple step process to join us</p>
-                      </div>
-                      
-                      <div className="space-y-3">
-                        {admissionSteps.map((step) => (
-                          <div key={step.step} className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                              {step.step}
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-sm text-gray-800">{step.title}</h4>
-                              <p className="text-xs text-gray-600">{step.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      <div className="mt-4 pt-3 border-t border-gray-200">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-gray-600">Ready to start?</span>
-                          <Link
-                            to="/contactSection"
-                            className="text-xs bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors"
-                          >
-                            Apply 
-                          </Link>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                );
-              }
-
-              // Regular nav links
-              return (
-                <motion.div key={link.name} variants={itemVariants} className="relative">
-                  <Link
-                    to={link.path}
-                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                      activeLink === link.name
-                        ? "text-white bg-blue-600 bg-opacity-20 rounded-lg"
-                        : "text-[#0C0950] hover:text-blue-600"
-                    }`}
-                    onClick={() => setActiveLink(link.name)}
-                    onMouseEnter={() => setActiveLink(link.name)}
-                    onMouseLeave={() => setActiveLink("Home")}
-                  >
-                    {link.name}
-                    {activeLink === link.name && (
-                      <motion.span
-                        className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-400"
-                        layoutId="activeIndicator"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </Link>
-                </motion.div>
-              );
-            })}
-
-            {/* CTA Button */}
-            <motion.div variants={itemVariants}>
-              <Link 
-                to="/loginportalisherefjdfjdklfjdklfjasklfjasfjuw49ru0wr4jowrjeofjfkdjf0eu034uj4ue9rtuej8gerhgnrghrgnersghergnoesghesgo"
-                className="ml-4 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-[#0C0950] text-sm font-semibold rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:from-blue-600 hover:to-blue-700 flex items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            {/* Logo Section */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, type: "spring" }}
+              className="flex items-center group cursor-pointer"
+            >
+              <Link to="/" className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition" />
+                  <img
+                    src="/logo.jpg"
+                    alt="ARC Computer Institute"
+                    className="h-12 w-auto rounded-full relative z-10 transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => { e.target.src = "https://via.placeholder.com/48x48?text=ARC"; }}
                   />
-                </svg>
-                Student Login
+                </div>
+                <div className="flex flex-col">
+                  <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight">
+                    ARC Computer Institute
+                  </h1>
+                  <p className="text-xs text-gray-500 hidden sm:block">Innovate • Code • Succeed</p>
+                </div>
               </Link>
             </motion.div>
-          </motion.div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden">
+            {/* Desktop Navigation */}
+            <motion.div
+              className="hidden lg:flex items-center space-x-1"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                
+                // Admissions Dropdown
+                if (link.hasDropdown && link.name === "Admissions") {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      className="relative"
+                      variants={itemVariants}
+                      ref={admissionsDropdownRef}
+                    >
+                      <button
+                        onClick={() => setAdmissionsDropdownOpen(!admissionsDropdownOpen)}
+                        onMouseEnter={() => setAdmissionsDropdownOpen(true)}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                          isActive(link.path)
+                            ? "text-blue-600 bg-blue-50"
+                            : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                        }`}
+                      >
+                        <Icon className="text-base" />
+                        {link.name}
+                        <FaChevronDown className={`text-xs transition-transform duration-300 ${admissionsDropdownOpen ? "rotate-180" : ""}`} />
+                      </button>
+
+                      <AnimatePresence>
+                        {admissionsDropdownOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            onMouseLeave={() => setAdmissionsDropdownOpen(false)}
+                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50"
+                          >
+                            <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50">
+                              <h3 className="text-lg font-bold text-gray-800">Admission Process</h3>
+                              <p className="text-sm text-gray-600">4 simple steps to join us</p>
+                            </div>
+                            <div className="p-4 space-y-3">
+                              {admissionSteps.map((step) => {
+                                const StepIcon = step.icon;
+                                return (
+                                  <div key={step.step} className="flex items-start gap-3">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                      {step.step}
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2">
+                                        <StepIcon className="text-blue-600 text-sm" />
+                                        <h4 className="font-semibold text-sm text-gray-800">{step.title}</h4>
+                                      </div>
+                                      <p className="text-xs text-gray-600 mt-1">{step.description}</p>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div className="p-4 bg-gray-50 border-t border-gray-200">
+                              <Link
+                                to="/contactSection"
+                                onClick={() => setAdmissionsDropdownOpen(false)}
+                                className="block w-full text-center bg-green-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition"
+                              >
+                                Apply Now →
+                              </Link>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                }
+
+                // Regular nav links (no dropdown for Courses now)
+                return (
+                  <motion.div key={link.name} variants={itemVariants}>
+                    <Link
+                      to={link.path}
+                      className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                        isActive(link.path)
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      }`}
+                    >
+                      <Icon className="text-base" />
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+
+              {/* Student Login Button with Modal */}
+              <motion.div variants={itemVariants} className="ml-4">
+                {isLoggedIn ? (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-green-50 rounded-lg">
+                      <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                        {userName.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">{userName}</span>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowLoginModal(true)}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    <FaSignInAlt className="text-base" />
+                    Student Login
+                  </button>
+                )}
+              </motion.div>
+            </motion.div>
+
+            {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white focus:outline-none p-2 rounded-md bg-blue-600 bg-opacity-30 hover:bg-opacity-50 transition-all"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
               whileTap={{ scale: 0.9 }}
-              aria-label="Menu"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              {isOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
             </motion.button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Nav */}
-      <motion.div
-        initial={false}
-        animate={isOpen ? "open" : "closed"}
-        variants={mobileVariants}
-        className="md:hidden fixed top-0 right-0 h-full w-64 bg-navy-900 bg-white z-50 shadow-2xl border-l border-blue-900 text-black"
-        transition={{ type: "spring", stiffness: 400, damping: 40 }}
-      >
-        <div className="flex justify-end p-4">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-black hover:text-white p-2 rounded-full hover:bg-blue-800 transition-colors"
-            aria-label="Close menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="flex flex-col px-6 py-4 space-y-2">
-          {navLinks.map((link) => (
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
             <motion.div
-              key={link.name}
-              whileHover={{ x: 5 }}
-              whileTap={{ scale: 0.95 }}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={mobileVariants}
+              className="lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 overflow-y-auto"
             >
-              <Link
-                to={link.path}
-                className={`px-4 py-3 text-black rounded-lg transition-all block ${
-                  activeLink === link.name
-                    ? "bg-blue-800 text-black font-medium"
-                    : "hover:bg-blue-900 hover:text-white"
-                }`}
-                onClick={() => {
-                  setActiveLink(link.name);
-                  setIsOpen(false);
-                }}
-              >
-                {link.name}
-              </Link>
+              <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 p-4 flex justify-between items-center">
+                <div>
+                  <h2 className="text-white font-bold text-lg">Menu</h2>
+                  <p className="text-blue-100 text-xs">ARC Computer Institute</p>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white p-2 hover:bg-white/20 rounded-lg transition"
+                >
+                  <FaTimes className="text-xl" />
+                </button>
+              </div>
+
+              <div className="p-4 space-y-2">
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                        isActive(link.path)
+                          ? "bg-blue-50 text-blue-600 font-medium"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      <Icon className="text-lg" />
+                      {link.name}
+                    </Link>
+                  );
+                })}
+
+                {/* Student Login Section in Mobile */}
+                {isLoggedIn ? (
+                  <div className="mt-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                        {userName.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-800">{userName}</p>
+                        <p className="text-xs text-gray-500">Logged In</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsOpen(false);
+                      }}
+                      className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-md mt-4"
+                  >
+                    <FaSignInAlt /> Student Login
+                  </button>
+                )}
+              </div>
             </motion.div>
-          ))}
+          )}
+        </AnimatePresence>
+      </nav>
 
+      {/* Login Modal */}
+      <AnimatePresence>
+        {showLoginModal && (
           <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+            onClick={() => {
+              setShowLoginModal(false);
+              setLoginError("");
+            }}
           >
-            <Link
-              to="/loginportalisherefjdfjdklfjdklfjasklfjasfjuw49ru0wr4jowrjeofjfkdjf0eu034uj4ue9rtuej8gerhgnrghrgnersghergnoesghesgo"
-              className="mt-4 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-black font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center"
+            <motion.div
+              ref={loginModalRef}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-              </svg>
-              Student Login
-            </Link>
-          </motion.div>
-        </div>
+              {/* Modal Header */}
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-2xl font-bold">Student Login</h2>
+                    <p className="text-blue-100 text-sm mt-1">Access your dashboard and track progress</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowLoginModal(false);
+                      setLoginError("");
+                    }}
+                    className="text-white hover:bg-white/20 p-2 rounded-lg transition"
+                  >
+                    <FaTimesCircle className="text-xl" />
+                  </button>
+                </div>
+              </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-blue-800">
-          <div className="flex items-center space-x-3">
-            <img src={instituteLogo} alt="Institute Logo" className="h-10 w-auto" />
-            <div>
-              <h3 className="text-sm font-medium text-white">ARC Computer Institute</h3>
-              <p className="text-xs text-blue-300">Empowering the next generation of tech leaders</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </nav>
+              {/* Modal Body */}
+              <form onSubmit={handleLogin} className="p-6">
+                {loginError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm"
+                  >
+                    {loginError}
+                  </motion.div>
+                )}
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <FaUser className="inline mr-2 text-blue-600" />
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="student@arc.com"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <FaLock className="inline mr-2 text-blue-600" />
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <label className="flex items-center gap-2">
+                      <input type="checkbox" className="rounded text-blue-600" />
+                      <span className="text-gray-600">Remember me</span>
+                    </label>
+                    <a href="#" className="text-blue-600 hover:text-blue-700">Forgot Password?</a>
+                  </div>
+
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
+                  >
+                    Login to Dashboard
+                  </motion.button>
+
+                  <p className="text-center text-xs text-gray-500 mt-4">
+                    Demo Credentials: student@arc.com / student123
+                  </p>
+                </div>
+              </form>
+
+              {/* Modal Footer */}
+              <div className="p-4 bg-gray-50 border-t border-gray-200 text-center">
+                <p className="text-sm text-gray-600">
+                  New Student?{' '}
+                  <Link
+                    to="/contactSection"
+                    onClick={() => setShowLoginModal(false)}
+                    className="text-blue-600 font-semibold hover:text-blue-700"
+                  >
+                    Register Now
+                  </Link>
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Spacer to prevent content from hiding under fixed navbar */}
+      <div className="h-[88px] sm:h-[90px] lg:h-[96px]" />
+    </>
   );
 };
 
