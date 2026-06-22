@@ -137,10 +137,10 @@ const HeroSection = () => {
         <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
       </Helmet>
 
-      {/* Medium top gap: pt-14 instead of pt-5 or pt-20 */}
+      {/* REDUCED GAP: Changed pt-14 to pt-8 and pb-16 to pb-8 */}
       <section
         id="home"
-        className="relative pt-14 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50"
+        className="relative pt-8 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50"
       >
         <ChatBot />
 
@@ -177,17 +177,51 @@ const HeroSection = () => {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <div className="relative w-[80px] h-[80px] bg-gradient-to-br from-gray-700 to-gray-900 rounded-[45px] flex items-center justify-center shadow-2xl border-2 border-indigo-500 animate-[float_2s_ease-in-out_infinite]">
-            <div className="absolute -top-3 left-[35px] w-[10px] h-[15px] bg-indigo-500 rounded-full shadow-[0_0_8px_#4F46E5] animate-pulse"></div>
-            <div className="flex gap-4 absolute top-6">
-              <div className="w-3 h-3 bg-indigo-400 rounded-full shadow-[0_0_12px_#6366F1]"></div>
-              <div className="w-3 h-3 bg-indigo-400 rounded-full shadow-[0_0_12px_#6366F1]"></div>
+          <div className="relative w-[84px] h-[84px] group">
+            
+            {/* Antenna with signal */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center">
+              <div className="w-[2px] h-3 bg-[#475569]"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] shadow-[0_0_8px_#38bdf8]"></div>
             </div>
-            <div className="absolute bottom-5 w-7 h-2 bg-gray-400 rounded-full"></div>
-            <span className="absolute bottom-0 right-1 text-xl">🤖</span>
+            
+            {/* Head section */}
+            <div className="absolute top-3 left-1/2 -translate-x-1/2">
+              <div className="w-11 h-9 bg-[#334155] rounded-lg border border-[#475569] relative">
+                {/* Eyes */}
+                <div className="absolute top-2 left-2 flex gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#38bdf8] shadow-[0_0_6px_#38bdf8]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#38bdf8] shadow-[0_0_6px_#38bdf8]"></div>
+                </div>
+                {/* Mouth */}
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-[2px] bg-[#475569] rounded-full"></div>
+              </div>
+            </div>
+            
+            {/* Neck connector */}
+            <div className="absolute top-[46px] left-1/2 -translate-x-1/2 w-2.5 h-1 bg-[#475569] rounded-sm"></div>
+            
+            {/* Body section */}
+            <div className="absolute top-[52px] left-1/2 -translate-x-1/2">
+              <div className="w-9 h-7 bg-[#334155] rounded-md border border-[#475569] relative">
+                {/* Chest indicator */}
+                <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981] animate-pulse"></div>
+                {/* Body detail line */}
+                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-[#475569]"></div>
+              </div>
+            </div>
+            
+            {/* Legs */}
+            <div className="absolute bottom-2 left-[26px] w-2 h-2.5 bg-[#334155] rounded-b-sm border-x border-b border-[#475569]"></div>
+            <div className="absolute bottom-2 right-[26px] w-2 h-2.5 bg-[#334155] rounded-b-sm border-x border-b border-[#475569]"></div>
+            
+            {/* Hover effect - subtle glow */}
+            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#38bdf8]/20 to-[#8b5cf6]/20 blur-md"></div>
+            </div>
           </div>
         </motion.div>
 
@@ -208,13 +242,13 @@ const HeroSection = () => {
         )}
 
         <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* LEFT COLUMN – increased vertical spacing */}
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            {/* LEFT COLUMN – reduced vertical spacing */}
             <motion.div
               initial="hidden"
               animate="visible"
               variants={containerVariants}
-              className="space-y-5"   // was space-y-4, now more gap
+              className="space-y-4"
             >
               <motion.div
                 variants={fadeInVariants}
@@ -223,7 +257,8 @@ const HeroSection = () => {
                 🚀 Transforming Tech Education
               </motion.div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-gray-800">
+              {/* Heading with Montagu Slab font */}
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-gray-800" style={{ fontFamily: "'Montagu Slab', serif" }}>
                 {headingWords.map((word, i) => (
                   <motion.span
                     key={i}
@@ -251,8 +286,8 @@ const HeroSection = () => {
                 Join our industry-leading programs and gain hands-on experience with the latest technologies taught by expert instructors.
               </motion.p>
 
-              {/* Buttons – more gap between them */}
-              <motion.div className="flex flex-wrap gap-4" variants={staggerContainer}>
+              {/* Buttons – reduced gap */}
+              <motion.div className="flex flex-wrap gap-3" variants={staggerContainer}>
                 <MotionLink
                   to="/contactSection"
                   className="relative px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg shadow-md overflow-hidden group text-sm"
@@ -280,8 +315,8 @@ const HeroSection = () => {
                 </MotionLink>
               </motion.div>
 
-              {/* Student ratings – slightly more gap */}
-              <motion.div className="flex items-center gap-5" variants={itemVariants}>
+              {/* Student ratings */}
+              <motion.div className="flex items-center gap-4" variants={itemVariants}>
                 <div className="flex -space-x-2">
                   {studentImages.map((imgSrc, index) => (
                     <motion.img
@@ -319,10 +354,10 @@ const HeroSection = () => {
                 </div>
               </motion.div>
 
-              {/* Feature grid – keep as is, but spacing above is already increased */}
+              {/* Feature grid – reduced top padding */}
               <motion.div
                 ref={featuresRef}
-                className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2"
+                className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isFeaturesInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -341,7 +376,7 @@ const HeroSection = () => {
               </motion.div>
             </motion.div>
 
-            {/* RIGHT COLUMN – clean circle + bottom box */}
+            {/* RIGHT COLUMN */}
             <div className="relative flex flex-col items-center justify-center">
               <motion.div
                 className="relative w-full max-w-md aspect-square rounded-full overflow-hidden shadow-2xl border-4 border-white ring-4 ring-indigo-200 cursor-pointer"
@@ -369,7 +404,7 @@ const HeroSection = () => {
               </motion.div>
 
               <motion.div
-                className="mt-6 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl border border-indigo-200 pointer-events-auto"
+                className="mt-4 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl border border-indigo-200 pointer-events-auto"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.6, type: "spring", stiffness: 120 }}
@@ -385,8 +420,6 @@ const HeroSection = () => {
               </motion.div>
             </div>
           </div>
-
-          <div className="mt-10"></div>
         </div>
       </section>
 
@@ -394,6 +427,14 @@ const HeroSection = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
+        }
+        
+        /* Montagu Slab Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..48,100..700&display=swap');
+        
+        /* Apply Montagu Slab to heading */
+        .montagu-heading {
+          font-family: 'Montagu Slab', serif;
         }
       `}</style>
     </>

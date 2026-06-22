@@ -1,1 +1,18 @@
 @import "tailwindcss";
+/* global.css ya index.css me add karo */
+@keyframes slide-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
+
+.animate-slide-infinite {
+  animation: slide-infinite 30s linear infinite;
+}
+
+.animate-slide-infinite:hover {
+  animation-play-state: paused;
+}

@@ -244,9 +244,9 @@ const WhyChooseUs = () => {
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                   style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group"
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group flex flex-col"
                 >
-                  <div className={`p-6 bg-gradient-to-br ${feature.gradient}`}>
+                  <div className={`p-6 bg-gradient-to-br ${feature.gradient} flex-1`}>
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 text-[#3A36DB] group-hover:scale-110 transition-transform duration-300">
                         {feature.icon}
@@ -257,7 +257,8 @@ const WhyChooseUs = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-[#0C0950] to-[#3A36DB] transition-all duration-500"></div>
+                  {/* Bottom line - now at the very bottom of the card */}
+                  <div className="h-1 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] w-0 group-hover:w-full transition-all duration-500"></div>
                 </motion.div>
               );
             })}

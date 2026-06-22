@@ -16,22 +16,22 @@ export function VideoShowcaseSection() {
 
     },
     {
-      id: 2,
-      title: "Journal Voucher In Tally - Practical Tutorial",
-      description: "Step-by-step guide on creating Journal Vouchers in Tally, a key accounting skill taught at ARC Computer Institute. Perfect for accounting professionals in Delhi looking to enhance their practical knowledge.",
-      youtubeId: "aTJ7Vg20NxE",
-      duration: "PT7M51S",
-
-      // duration: "PT12M45S",
-      uploadDate: "2023-06-22T00:00:00+05:30"
-    },
-    {
       id: 3,
       title: "Master Salary Sheet in Excel - Complete Tutorial",
       description: "Comprehensive tutorial on creating professional salary sheets in Excel. Essential training for HR, payroll, and admin professionals in Delhi from ARC Computer Institute's practical curriculum.",
       youtubeId: "eEg0IKAhIe4",
       duration: "PT9M15S",
       uploadDate: "2023-07-10T00:00:00+05:30"
+    },
+    {
+      id: 2,
+      title: "Journal Voucher In Tally - Practical Tutorial",
+      description: "Step-by-step guide on creating Journal Vouchers in Tally, a key accounting skill taught at ARC Computer Institute. Perfect for accounting professionals in Delhi looking to enhance their practical knowledge.",
+      youtubeId: "aTJ7Vg20NxE",
+      duration: "PT7M51S",
+  
+      // duration: "PT12M45S",
+      uploadDate: "2023-06-22T00:00:00+05:30"
     }
   ];
 

@@ -28,7 +28,9 @@ import PrivacyPolicy from "./footer/PrivacyPolicy";
 import TermsOfService from "./footer/TermsOfService";
 import RefundPolicy from "./footer/RefundPolicy";
 import Sitemap from "./footer/Sitemap";
-
+import CourseShowcase from "./component/CourseShowcase";
+import Blog from "./component/Blog";
+import BlogDetail from "./component/BlogDetail";
 function App() {
   return (
     <Router>
@@ -50,9 +52,11 @@ function App() {
           <Route path="/sitemap" element={<Sitemap/>} />
           <Route path="MediaGallery" element={<MediaGallery/>} />
           <Route path="VideoShowcaseSection" element={<VideoShowcaseSection/>} />
+      <Route path="courses-showcase" element={<CourseShowcase />} />
           <Route path="studentmangerjjfjasdskfjadklfjaslfjlklfjadsklfjfjaslfjlffjfkjlkjlsjfjfkjldfdfadkfjkldfjklfjasklfjklfjasklfjadkljfklfjjdklfjdkldfjsklfjadsklfjasklfjaklfjaskjfakljfasjfkladsjflasjfklajfklajflajfasfjkfljaf" element={<StudentManager/>} />
           <Route path="changeBDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQmvnmnsd,mfndsfnadskfniofjawiofaewjfpaewofjewofljdsfoadsjfodsifhasfhadsfjasndlfahdsfasnfkajsnkfndsfnadslfds" element={<ChangePasswordForm/>} />
-          
+          <Route path="blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
           
 
         </Route>
