@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -19,144 +19,207 @@ const coursesData = [
   { id: 13, slug: "ccc", title: "CCC", duration: "4 Months", category: "General", icon: "https://cdn-icons-png.flaticon.com/256/2436/2436874.png", color: "from-teal-600 to-cyan-600", bgColor: "bg-teal-50", level: "Beginner", students: 980, description: "Course on Computer Concepts - Government certified course covering basic computer knowledge and internet applications.", syllabus: ["Computer Basics", "Software", "Internet", "Email", "Digital Finance", "Cyber Security"] },
 ];
 
-// Get unique categories
 const getCategories = () => {
   const cats = coursesData.map(c => c.category);
   return ['All', ...new Set(cats)];
 };
 
-// Course Card Component
-const CourseCard = ({ course, onOpenDetail }) => {
-  const iconSrc = course.icon || "https://cdn-icons-png.flaticon.com/512/1995/1995576.png";
-  
-  return (
-    <div 
-      onClick={() => onOpenDetail(course)}
-      className="course-card relative w-[320px] md:w-[350px] bg-white rounded-2xl shadow-xl cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
-    >
-      {/* Top gradient bar */}
-      <div className={`h-2 w-full bg-gradient-to-r ${course.color || 'from-blue-600 to-blue-800'}`}></div>
-      
-      {/* Card Content */}
-      <div className="p-6 flex flex-col gap-4">
-        {/* Icon + Title Row */}
-        <div className="flex items-center gap-4">
-          <div className={`w-16 h-16 ${course.bgColor || 'bg-blue-50'} rounded-2xl flex items-center justify-center p-2 shadow-md ring-1 ring-gray-100 flex-shrink-0`}>
-            <img src={iconSrc} alt={course.title} className="w-10 h-10 object-contain" loading="eager" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-xl font-extrabold text-gray-800 leading-tight truncate">{course.title}</h3>
-            <div className="flex items-center gap-2 mt-1">
-              <span className={`text-xs font-semibold text-${course.color?.split('-')[1]}-700 bg-${course.color?.split('-')[1]}-50 px-3 py-0.5 rounded-full`}>
-                <i className="fas fa-tag mr-1 text-xs"></i> {course.category}
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Details Grid */}
-        <div className="grid grid-cols-3 gap-2 border-t border-gray-100 pt-3">
-          <div className="flex items-center gap-1.5 text-gray-700 bg-gray-50 rounded-lg px-2 py-2">
-            <i className="far fa-calendar-alt text-blue-500 text-xs"></i>
-            <span className="text-xs font-semibold">{course.duration}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-gray-700 bg-gray-50 rounded-lg px-2 py-2">
-            <i className="fas fa-chart-line text-blue-500 text-xs"></i>
-            <span className="text-xs font-semibold">{course.level}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-gray-700 bg-gray-50 rounded-lg px-2 py-2">
-            <i className="fas fa-user-graduate text-blue-500 text-xs"></i>
-            <span className="text-xs font-semibold">{course.students}+</span>
-          </div>
-        </div>
-        
-        {/* View Details Button */}
-        <button className="w-full py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold text-xs hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-          <i className="fas fa-eye"></i> View Details
-        </button>
-      </div>
-    </div>
-  );
-};
+// ─── Course Card ───────────────────────────────────────────────────────────────
+const CourseCard = ({ course, onOpenDetail }) => (
+  <div
+    onClick={() => onOpenDetail(course)}
+    className="group relative bg-white rounded-2xl cursor-pointer overflow-hidden flex-shrink-0"
+    style={{
+      width: '360px',          // ← was 300px, ab 360px
+      border: '1px solid rgba(58,54,219,0.12)',
+      boxShadow: '0 2px 12px rgba(12,9,80,0.06)',
+      transition: 'transform 0.28s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.28s ease, border-color 0.2s',
+    }}
+    onMouseEnter={e => {
+      e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
+      e.currentTarget.style.boxShadow = '0 20px 48px rgba(58,54,219,0.18)';
+      e.currentTarget.style.borderColor = 'rgba(58,54,219,0.45)';
+    }}
+    onMouseLeave={e => {
+      e.currentTarget.style.transform = 'translateY(0) scale(1)';
+      e.currentTarget.style.boxShadow = '0 2px 12px rgba(12,9,80,0.06)';
+      e.currentTarget.style.borderColor = 'rgba(58,54,219,0.12)';
+    }}
+  >
+    {/* Top accent bar */}
+    <div
+      className="h-[4px] w-full"
+      style={{ background: 'linear-gradient(90deg, #0C0950, #3A36DB)' }}
+    />
 
-// Course Detail Modal Component
+    {/* Hover glow overlay */}
+    <div
+      className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
+      style={{
+        background: 'radial-gradient(ellipse at top, rgba(58,54,219,0.05) 0%, transparent 70%)',
+        transition: 'opacity 0.3s ease',
+      }}
+    />
+
+    <div className="p-6 flex flex-col gap-5 relative">   {/* ← p-5→p-6, gap-4→gap-5 */}
+
+      {/* Icon + Title */}
+      <div className="flex items-center gap-4">          {/* ← gap-3→gap-4 */}
+        <div
+          className={`w-16 h-16 ${course.bgColor || 'bg-blue-50'} rounded-xl flex items-center justify-center p-2 flex-shrink-0`}
+          style={{ border: '1px solid rgba(58,54,219,0.1)', transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}
+        >
+          {/* ← w-14/h-14 → w-16/h-16, icon w-9/h-9 → w-11/h-11 */}
+          <img
+            src={course.icon}
+            alt={course.title}
+            className="w-11 h-11 object-contain group-hover:scale-110 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          {/* ← text-base → text-lg, font-bold stays */}
+          <h3 className="text-lg font-bold text-gray-800 leading-tight truncate">{course.title}</h3>
+          <span
+            className="inline-block mt-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+            style={{ background: 'rgba(58,54,219,0.08)', color: '#3A36DB' }}
+          >
+            {course.category}
+          </span>
+        </div>
+      </div>
+
+      {/* Description (naya — card pe brief text) */}
+      <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+        {course.description}
+      </p>
+
+      {/* Stats row */}
+      <div
+        className="grid grid-cols-3 gap-2 pt-3"
+        style={{ borderTop: '1px solid rgba(58,54,219,0.08)' }}
+      >
+        {[
+          { icon: 'far fa-calendar-alt', text: course.duration },
+          { icon: 'fas fa-chart-line', text: course.level },
+          { icon: 'fas fa-user-graduate', text: `${course.students}+` },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-1.5 rounded-lg px-2 py-2"
+            style={{ background: 'rgba(58,54,219,0.04)' }}
+          >
+            <i className={`${item.icon} text-xs`} style={{ color: '#3A36DB' }}></i>
+            {/* ← text-[11px] → text-xs */}
+            <span className="text-xs font-semibold text-gray-600 truncate">{item.text}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* View Details Button */}
+      <button
+        className="w-full py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-300"
+        style={{
+          background: 'linear-gradient(135deg, #0C0950 0%, #3A36DB 100%)',
+          boxShadow: '0 4px 14px rgba(58,54,219,0.25)',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 20px rgba(58,54,219,0.4)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
+        onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(58,54,219,0.25)'; e.currentTarget.style.transform = 'scale(1)'; }}
+      >
+        <i className="fas fa-eye"></i> View Details
+      </button>
+    </div>
+  </div>
+);
+
+// ─── Course Detail Modal ───────────────────────────────────────────────────────
 const CourseDetailModal = ({ course, onClose }) => {
   if (!course) return null;
-  
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto custom-scroll modal-animate" onClick={(e) => e.stopPropagation()}>
-        <div className={`h-2 w-full bg-gradient-to-r ${course.color || 'from-blue-600 to-blue-800'}`}></div>
-        
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      style={{ background: 'rgba(12,9,80,0.65)', backdropFilter: 'blur(6px)' }}
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto"
+        style={{ boxShadow: '0 24px 64px rgba(12,9,80,0.3)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="h-[3px] w-full rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0C0950, #3A36DB)' }} />
+
         <div className="p-6 md:p-8">
           <div className="flex items-start gap-5 mb-6">
-            <div className={`w-20 h-20 ${course.bgColor || 'bg-blue-50'} rounded-2xl flex items-center justify-center p-2 shadow-md flex-shrink-0`}>
+            <div className={`w-20 h-20 ${course.bgColor || 'bg-blue-50'} rounded-2xl flex items-center justify-center p-2 flex-shrink-0`}
+              style={{ border: '1px solid rgba(58,54,219,0.15)' }}>
               <img src={course.icon} alt={course.title} className="w-12 h-12 object-contain" />
             </div>
             <div className="flex-1">
               <h2 className="text-2xl md:text-3xl font-extrabold text-gray-800">{course.title}</h2>
               <div className="flex flex-wrap gap-2 mt-2">
-                <span className={`text-xs font-semibold text-${course.color?.split('-')[1]}-700 bg-${course.color?.split('-')[1]}-50 px-3 py-1 rounded-full`}>
-                  {course.category}
-                </span>
-                <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                  <i className="far fa-clock mr-1"></i> {course.duration}
-                </span>
-                <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                  <i className="fas fa-signal mr-1"></i> {course.level}
-                </span>
+                {[course.category, `⏱ ${course.duration}`, `📶 ${course.level}`].map((tag, i) => (
+                  <span key={i} className="text-xs font-semibold px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(58,54,219,0.08)', color: '#3A36DB' }}>
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
-              <i className="fas fa-times text-2xl"></i>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors text-xl">
+              <i className="fas fa-times"></i>
             </button>
           </div>
-          
+
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
-              <i className="fas fa-info-circle text-blue-500"></i> About this Course
+            <h3 className="text-base font-bold text-gray-800 mb-2 flex items-center gap-2">
+              <i className="fas fa-info-circle" style={{ color: '#3A36DB' }}></i> About this Course
             </h3>
-            <p className="text-gray-600 leading-relaxed">{course.description}</p>
+            <p className="text-gray-600 leading-relaxed text-sm">{course.description}</p>
           </div>
-          
+
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <i className="fas fa-list-check text-blue-500"></i> Course Syllabus
+            <h3 className="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <i className="fas fa-list-check" style={{ color: '#3A36DB' }}></i> Course Syllabus
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {course.syllabus.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-gray-600 bg-gray-50 rounded-lg px-3 py-2">
-                  <i className="fas fa-check-circle text-green-500 text-sm"></i>
+                <div key={idx} className="flex items-center gap-2 text-gray-600 rounded-lg px-3 py-2 text-sm"
+                  style={{ background: 'rgba(58,54,219,0.05)', border: '1px solid rgba(58,54,219,0.1)' }}>
+                  <i className="fas fa-check-circle text-xs" style={{ color: '#3A36DB' }}></i>
                   <span>{item}</span>
                 </div>
               ))}
             </div>
           </div>
-          
-          <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
-            <div className="text-center">
-              <i className="fas fa-users text-blue-500 text-xl"></i>
-              <p className="text-2xl font-bold text-gray-800">{course.students}+</p>
-              <p className="text-xs text-gray-500">Students Enrolled</p>
-            </div>
-            <div className="text-center">
-              <i className="fas fa-calendar-alt text-blue-500 text-xl"></i>
-              <p className="text-2xl font-bold text-gray-800">{course.duration}</p>
-              <p className="text-xs text-gray-500">Course Duration</p>
-            </div>
-            <div className="text-center">
-              <i className="fas fa-certificate text-blue-500 text-xl"></i>
-              <p className="text-2xl font-bold text-gray-800">Certified</p>
-              <p className="text-xs text-gray-500">Completion Certificate</p>
-            </div>
+
+          <div className="grid grid-cols-3 gap-4 mb-6 p-4 rounded-xl"
+            style={{ background: 'linear-gradient(135deg, rgba(12,9,80,0.03), rgba(58,54,219,0.06))' }}>
+            {[
+              { icon: 'fas fa-users', val: `${course.students}+`, label: 'Students Enrolled' },
+              { icon: 'fas fa-calendar-alt', val: course.duration, label: 'Duration' },
+              { icon: 'fas fa-certificate', val: 'Certified', label: 'On Completion' },
+            ].map((s, i) => (
+              <div key={i} className="text-center">
+                <i className={`${s.icon} text-lg mb-1`} style={{ color: '#3A36DB' }}></i>
+                <p className="text-xl font-bold text-gray-800">{s.val}</p>
+                <p className="text-xs text-gray-500">{s.label}</p>
+              </div>
+            ))}
           </div>
-          
+
           <Link to="/contactSection">
             <div className="flex gap-3">
-              <button className="flex-1 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+              <button
+                className="flex-1 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm transition-all"
+                style={{ background: 'linear-gradient(135deg, #0C0950, #3A36DB)', boxShadow: '0 6px 20px rgba(58,54,219,0.3)' }}
+              >
                 <i className="fas fa-graduation-cap"></i> Enroll Now
               </button>
-              <button onClick={onClose} className="px-6 py-3 border-2 border-gray-300 text-gray-600 rounded-xl font-semibold hover:bg-gray-50 transition-all">
+              <button
+                onClick={onClose}
+                className="px-6 py-3 rounded-xl font-semibold text-sm transition-all"
+                style={{ border: '2px solid rgba(58,54,219,0.25)', color: '#3A36DB' }}
+              >
                 Close
               </button>
             </div>
@@ -167,56 +230,69 @@ const CourseDetailModal = ({ course, onClose }) => {
   );
 };
 
-// Main Course Showcase Component
+// ─── Infinite Marquee ─────────────────────────────────────────────────────────
+const InfiniteMarquee = ({ courses, onOpenDetail }) => {
+  const trackRef = useRef(null);
+  const doubled = [...courses, ...courses];
+
+  return (
+    <div
+      className="relative w-full overflow-hidden py-4"
+      onMouseEnter={() => trackRef.current && (trackRef.current.style.animationPlayState = 'paused')}
+      onMouseLeave={() => trackRef.current && (trackRef.current.style.animationPlayState = 'running')}
+    >
+      <div className="absolute left-0 top-0 h-full w-24 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to right, #f3f4f6, transparent)' }} />
+      <div className="absolute right-0 top-0 h-full w-24 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to left, #f3f4f6, transparent)' }} />
+
+      <div
+        ref={trackRef}
+        className="flex gap-6"        /* ← gap-5 → gap-6 to match larger cards */
+        style={{
+          width: 'max-content',
+          animation: `arcMarquee ${courses.length * 4}s linear infinite`,
+        }}
+      >
+        {doubled.map((course, idx) => (
+          <CourseCard key={`${course.id}-${idx}`} course={course} onOpenDetail={onOpenDetail} />
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes arcMarquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 const CourseShowcase = () => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isSliderPlaying, setIsSliderPlaying] = useState(true);
-  
+
   const categories = useMemo(() => getCategories(), []);
-  
-  const filteredCourses = useMemo(() => {
-    if (activeFilter === 'All') return coursesData;
-    return coursesData.filter(course => course.category === activeFilter);
-  }, [activeFilter]);
-  
-  const duplicatedCourses = useMemo(() => {
-    if (filteredCourses.length === 0) return [];
-    return [...filteredCourses, ...filteredCourses, ...filteredCourses];
-  }, [filteredCourses]);
-  
+
+  const filteredCourses = useMemo(() => (
+    activeFilter === 'All' ? coursesData : coursesData.filter(c => c.category === activeFilter)
+  ), [activeFilter]);
+
   const useSlider = filteredCourses.length > 3;
-  
-  const handleOpenDetail = (course) => {
-    setSelectedCourse(course);
-  };
-  
-  const handleCloseDetail = () => {
-    setSelectedCourse(null);
-  };
-  
-  const handleMouseEnter = () => setIsSliderPlaying(false);
-  const handleMouseLeave = () => setIsSliderPlaying(true);
-  
-  const handleViewAllCourses = () => {
-    setActiveFilter('All');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
+
   return (
     <>
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..48,100..700&display=swap');
-          .montagu-heading {
-            font-family: 'Montagu Slab', serif;
-          }
-        `}
-      </style>
-      
-      <section className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 py-6">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..48,100..700&display=swap');
+        .montagu-heading { font-family: 'Montagu Slab', serif; }
+      `}</style>
+
+      <section className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Section - Clean & Professional */}
+
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -224,109 +300,85 @@ const CourseShowcase = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
-            <p className="text-blue-600 font-semibold text-sm uppercase tracking-wider mb-2">
-              <i className="fas fa-graduation-cap mr-2"></i> 
-              Find the Right
-            </p>
+            <span
+              className="inline-block text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3"
+              style={{ background: 'rgba(58,54,219,0.1)', color: '#3A36DB' }}
+            >
+              <i className="fas fa-graduation-cap mr-2"></i> Find the Right
+            </span>
             <h2 className="montagu-heading text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 leading-tight">
-              Best Course <span className="text-blue-600">for you</span>
+              Best Course <span style={{ color: '#3A36DB' }}>for you</span>
             </h2>
-            <p className="text-gray-500 mt-3 text-sm flex items-center justify-center gap-2">
-              <i className="fas fa-hand-pointer text-blue-500"></i>
-              <span>Click any course card to view complete details</span>
+            <p className="text-gray-400 mt-3 text-sm flex items-center justify-center gap-2">
+              <i className="fas fa-hand-pointer" style={{ color: '#3A36DB' }}></i>
+              Click any course card to view complete details
             </p>
           </motion.div>
-          
-          {/* Filter Tabs - Clean horizontal scroll */}
+
+          {/* Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
-                  activeFilter === cat 
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                    : 'bg-white text-gray-600 hover:bg-gray-100 shadow-sm'
-                }`}
+                className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap"
+                style={
+                  activeFilter === cat
+                    ? { background: 'linear-gradient(135deg, #0C0950, #3A36DB)', color: 'white', boxShadow: '0 4px 14px rgba(58,54,219,0.3)' }
+                    : { background: 'white', color: '#555', border: '1px solid rgba(58,54,219,0.15)' }
+                }
               >
-                {cat === 'All' ? (
-                  <span className="flex items-center gap-2">
-                    <i className="fas fa-th-large"></i> 
-                    All Courses
-                  </span>
-                ) : (
-                  cat
-                )}
+                {cat === 'All' ? <><i className="fas fa-th-large mr-1"></i> All Courses</> : cat}
               </button>
             ))}
           </div>
-          
-          {/* Content Area */}
+
+          {/* Content */}
           {filteredCourses.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl shadow-lg">
-              <i className="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
-              <p className="text-gray-500 text-lg">No courses found in this category.</p>
-              <button onClick={handleViewAllCourses} className="mt-4 text-blue-600 hover:underline font-medium">Show all courses</button>
+            <div className="text-center py-16 bg-white rounded-2xl" style={{ border: '1px solid rgba(58,54,219,0.1)' }}>
+              <i className="fas fa-folder-open text-5xl text-gray-300 mb-3"></i>
+              <p className="text-gray-500">No courses found.</p>
+              <button onClick={() => setActiveFilter('All')} className="mt-3 text-sm font-semibold" style={{ color: '#3A36DB' }}>
+                Show all courses
+              </button>
             </div>
           ) : useSlider ? (
-            <div className="relative w-full overflow-hidden rounded-2xl py-4">
-              <div 
-                className={`flex gap-5 w-max ${isSliderPlaying ? 'animate-slide-infinite' : ''}`}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                style={{ animationPlayState: isSliderPlaying ? 'running' : 'paused' }}
-              >
-                {duplicatedCourses.map((course, idx) => (
-                  <div key={`${course.id}-slide-${idx}`} className="flex-shrink-0">
-                    <CourseCard 
-                      course={course}
-                      onOpenDetail={handleOpenDetail}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-gray-100 to-transparent pointer-events-none"></div>
-              <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-gray-100 to-transparent pointer-events-none"></div>
-              
-              <div className="text-center mt-5 text-xs text-gray-400 flex items-center justify-center gap-4">
-                <i className="fas fa-arrows-alt-h text-blue-400"></i>
-                <span><strong>{filteredCourses.length}</strong> courses available</span>
-                <span className="hidden sm:inline">• Hover to pause</span>
-                <i className="fas fa-infinity text-blue-400"></i>
-              </div>
-            </div>
+            <>
+              <InfiniteMarquee courses={filteredCourses} onOpenDetail={setSelectedCourse} />
+              <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-3">
+                <i className="fas fa-arrows-alt-h" style={{ color: '#3A36DB' }}></i>
+                <strong>{filteredCourses.length}</strong> courses · Hover to pause
+                <i className="fas fa-infinity" style={{ color: '#3A36DB' }}></i>
+              </p>
+            </>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
               {filteredCourses.map(course => (
-                <CourseCard 
-                  key={course.id}
-                  course={course}
-                  onOpenDetail={handleOpenDetail}
-                />
+                <CourseCard key={course.id} course={course} onOpenDetail={setSelectedCourse} />
               ))}
             </div>
           )}
-          
-          {/* View All Courses Button */}
+
+          {/* View All Button */}
           <Link to="/courses">
             <div className="flex justify-center mt-10">
-              <button 
-                onClick={handleViewAllCourses}
-                className="group px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 hover:scale-105"
+              <motion.button
+                whileHover={{ y: -3, boxShadow: '0 12px 32px rgba(58,54,219,0.35)' }}
+                whileTap={{ scale: 0.97 }}
+                className="px-8 py-3.5 rounded-xl font-bold text-base text-white flex items-center gap-3"
+                style={{ background: 'linear-gradient(135deg, #0C0950, #3A36DB)', boxShadow: '0 6px 20px rgba(58,54,219,0.25)' }}
+                onClick={() => { setActiveFilter('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               >
-                <i className="fas fa-th-large group-hover:rotate-12 transition-transform"></i>
-                <span>View All Courses</span>
-                <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-              </button>
+                <i className="fas fa-th-large"></i>
+                View All Courses
+                <i className="fas fa-arrow-right"></i>
+              </motion.button>
             </div>
           </Link>
-          
-          {/* Course Detail Modal */}
-          <CourseDetailModal 
-            course={selectedCourse} 
-            onClose={handleCloseDetail} 
-          />
         </div>
+
+        {/* Modal */}
+        <CourseDetailModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
       </section>
     </>
   );

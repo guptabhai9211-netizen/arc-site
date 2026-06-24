@@ -285,7 +285,7 @@ const CoursesSection = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 1 }}
             >
-              <Link to="/all-courses">
+              {/* <Link to="/all-courses">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -295,7 +295,7 @@ const CoursesSection = () => {
                   View All {courses.length} Courses
                   <span>🚀</span>
                 </motion.button>
-              </Link>
+              </Link> */}
             </motion.div>
           )}
         </div>

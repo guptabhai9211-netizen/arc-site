@@ -97,7 +97,7 @@ export default function StudentTestimonials() {
       <div 
         className="min-h-screen bg-gradient-to-br from-[#0C0950]/10 to-[#3A36DB]/10 py-20 px-4 relative overflow-hidden"
       >
-        {/* Animated floating dots - light theme version (subtle) */}
+        {/* Animated floating dots */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -159,12 +159,12 @@ export default function StudentTestimonials() {
                 className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 border border-[#0C0950]/10"
                 onClick={() => setActiveStudent(student)}
               >
-                <div className="relative h-60 overflow-hidden">
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
                   <motion.img
                     src={student.image}
                     alt={student.name}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
+                    className="w-full h-full object-contain"
+                    whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.4 }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0C0950]/80 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
@@ -198,7 +198,7 @@ export default function StudentTestimonials() {
           })}
         </motion.div>
 
-        {/* Modal - Light Theme */}
+        {/* Modal - Reduced image size */}
         <AnimatePresence>
           {activeStudent && (
             <motion.div
@@ -217,10 +217,11 @@ export default function StudentTestimonials() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="relative">
+                  {/* REDUCED IMAGE SIZE - changed from h-72 to h-56 */}
                   <img
                     src={activeStudent.image}
                     alt={activeStudent.name}
-                    className="w-full h-72 object-cover rounded-t-2xl"
+                    className="w-full h-56 object-contain bg-gray-100 rounded-t-2xl"
                   />
                   <button
                     onClick={() => setActiveStudent(null)}

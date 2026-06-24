@@ -1,7 +1,8 @@
 import CoursesSection from "./CoursesSection";
 import WhyChooseUs from "./WhyChooseUs";
 import MediaGallery from "./Gallery";
-import CareerBenefits from "./Build";
+// import CareerBenefits from "./Build";
+import WinningFactors from "./WinningFactors";
 import { ContactSection } from "./Contact";
 import { ContactBranches } from "./ContactBranches";
 import StudentTestimonials from "./Student";
@@ -27,7 +28,8 @@ const HomeSection = () => {
         <StudentTestimonials /> 
         <ContactBranches />
         <VideoShowcaseSection />
-        <CareerBenefits />
+        {/* <CareerBenefits /> */}
+        <WinningFactors/>
         <ContactSection />
       </div>
     </>
