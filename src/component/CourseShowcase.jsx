@@ -17,6 +17,7 @@ const coursesData = [
   { id: 11, slug: "busy", title: "Busy", duration: "1 Month", category: "Tools", icon: "https://www.altisinfonet.com/wp-content/themes/altisinfonet/assets/images/solution_image/management_7185495.svg", color: "from-slate-600 to-gray-600", bgColor: "bg-slate-50", level: "Intermediate", students: 450, description: "Learn Busy Accounting Software - billing, inventory, GST compliance, and financial management.", syllabus: ["Company Creation", "Billing", "Inventory", "GST", "Reports", "Backup/Restore"] },
   { id: 12, slug: "tally-prime", title: "Tally Prime", duration: "3 Months", category: "Accounting", icon: "https://compcraft.in/wp-content/uploads/2024/06/7090080-removebg-preview.png", color: "from-blue-600 to-indigo-600", bgColor: "bg-blue-50", level: "Intermediate", students: 1850, description: "Complete Tally Prime training - accounting, inventory, GST, payroll, and financial reporting.", syllabus: ["Accounting", "Inventory", "GST", "Payroll", "Banking", "Reports"] },
   { id: 13, slug: "ccc", title: "CCC", duration: "4 Months", category: "General", icon: "https://cdn-icons-png.flaticon.com/256/2436/2436874.png", color: "from-teal-600 to-cyan-600", bgColor: "bg-teal-50", level: "Beginner", students: 980, description: "Course on Computer Concepts - Government certified course covering basic computer knowledge and internet applications.", syllabus: ["Computer Basics", "Software", "Internet", "Email", "Digital Finance", "Cyber Security"] },
+  { id: 14, slug: "full-stack-development", title: "Full Stack Development", duration: "9 Months", category: "Web", icon: "https://image.pngaaa.com/519/4835519-middle.png", color: "from-blue-600 to-blue-800", bgColor: "bg-blue-50", level: "Beginner", students: 980, description: "Master Full Stack Development with hands-on projects and expert guidance. Perfect for beginner level students!", syllabus: ["HTML/CSS", "JavaScript", "React.js", "Node.js", "MongoDB", "Express.js", "Full Stack Projects"] },
 ];
 
 const getCategories = () => {
@@ -30,7 +31,7 @@ const CourseCard = ({ course, onOpenDetail }) => (
     onClick={() => onOpenDetail(course)}
     className="group relative bg-white rounded-2xl cursor-pointer overflow-hidden flex-shrink-0"
     style={{
-      width: '360px',          // ← was 300px, ab 360px
+      width: '360px',
       border: '1px solid rgba(58,54,219,0.12)',
       boxShadow: '0 2px 12px rgba(12,9,80,0.06)',
       transition: 'transform 0.28s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.28s ease, border-color 0.2s',
@@ -52,7 +53,7 @@ const CourseCard = ({ course, onOpenDetail }) => (
       style={{ background: 'linear-gradient(90deg, #0C0950, #3A36DB)' }}
     />
 
-    {/* Hover glow overlay */}
+    {/* Hover glow overlay - Clean without dark effect */}
     <div
       className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
       style={{
@@ -61,15 +62,14 @@ const CourseCard = ({ course, onOpenDetail }) => (
       }}
     />
 
-    <div className="p-6 flex flex-col gap-5 relative">   {/* ← p-5→p-6, gap-4→gap-5 */}
+    <div className="p-6 flex flex-col gap-5 relative">
 
-      {/* Icon + Title */}
-      <div className="flex items-center gap-4">          {/* ← gap-3→gap-4 */}
+      {/* Icon + Title + Certificate Badge */}
+      <div className="flex items-center gap-4">
         <div
           className={`w-16 h-16 ${course.bgColor || 'bg-blue-50'} rounded-xl flex items-center justify-center p-2 flex-shrink-0`}
           style={{ border: '1px solid rgba(58,54,219,0.1)', transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}
         >
-          {/* ← w-14/h-14 → w-16/h-16, icon w-9/h-9 → w-11/h-11 */}
           <img
             src={course.icon}
             alt={course.title}
@@ -78,8 +78,21 @@ const CourseCard = ({ course, onOpenDetail }) => (
           />
         </div>
         <div className="flex-1 min-w-0">
-          {/* ← text-base → text-lg, font-bold stays */}
-          <h3 className="text-lg font-bold text-gray-800 leading-tight truncate">{course.title}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-bold text-gray-800 leading-tight truncate">{course.title}</h3>
+            {/* Certificate Badge */}
+            <div 
+              className="flex-shrink-0 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold"
+              style={{ 
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                color: '#7B5A00',
+                boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)'
+              }}
+            >
+              <i className="fas fa-certificate text-[8px]"></i>
+              <span>Certified</span>
+            </div>
+          </div>
           <span
             className="inline-block mt-1.5 text-xs font-semibold px-3 py-1 rounded-full"
             style={{ background: 'rgba(58,54,219,0.08)', color: '#3A36DB' }}
@@ -89,7 +102,7 @@ const CourseCard = ({ course, onOpenDetail }) => (
         </div>
       </div>
 
-      {/* Description (naya — card pe brief text) */}
+      {/* Description */}
       <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
         {course.description}
       </p>
@@ -110,125 +123,49 @@ const CourseCard = ({ course, onOpenDetail }) => (
             style={{ background: 'rgba(58,54,219,0.04)' }}
           >
             <i className={`${item.icon} text-xs`} style={{ color: '#3A36DB' }}></i>
-            {/* ← text-[11px] → text-xs */}
             <span className="text-xs font-semibold text-gray-600 truncate">{item.text}</span>
           </div>
         ))}
       </div>
 
-      {/* View Details Button */}
-      <button
-        className="w-full py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-300"
-        style={{
-          background: 'linear-gradient(135deg, #0C0950 0%, #3A36DB 100%)',
-          boxShadow: '0 4px 14px rgba(58,54,219,0.25)',
+      {/* Certificate text below stats */}
+      <div 
+        className="flex items-center justify-center gap-2 py-1.5 rounded-lg"
+        style={{ 
+          background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 165, 0, 0.08))',
+          border: '1px solid rgba(255, 215, 0, 0.2)'
         }}
-        onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 20px rgba(58,54,219,0.4)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
-        onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(58,54,219,0.25)'; e.currentTarget.style.transform = 'scale(1)'; }}
       >
-        <i className="fas fa-eye"></i> View Details
-      </button>
+        <i className="fas fa-award text-[10px]" style={{ color: '#FFA500' }}></i>
+        <span className="text-[10px] font-semibold text-gray-600">
+          <span style={{ color: '#FF8C00' }}>✓</span> Course Completion Certificate
+        </span>
+      </div>
+
+      {/* View Details Button - Now links to course page */}
+      <Link to={`/courses/${course.slug}`}>
+        <button
+          className="w-full py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-300"
+          style={{
+            background: 'linear-gradient(135deg, #0C0950 0%, #3A36DB 100%)',
+            boxShadow: '0 4px 14px rgba(58,54,219,0.25)',
+          }}
+          onMouseEnter={e => { 
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(58,54,219,0.4)'; 
+            e.currentTarget.style.transform = 'scale(1.02)'; 
+          }}
+          onMouseLeave={e => { 
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(58,54,219,0.25)'; 
+            e.currentTarget.style.transform = 'scale(1)'; 
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <i className="fas fa-eye"></i> View Details
+        </button>
+      </Link>
     </div>
   </div>
 );
-
-// ─── Course Detail Modal ───────────────────────────────────────────────────────
-const CourseDetailModal = ({ course, onClose }) => {
-  if (!course) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
-      style={{ background: 'rgba(12,9,80,0.65)', backdropFilter: 'blur(6px)' }}
-      onClick={onClose}
-    >
-      <div
-        className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto"
-        style={{ boxShadow: '0 24px 64px rgba(12,9,80,0.3)' }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="h-[3px] w-full rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0C0950, #3A36DB)' }} />
-
-        <div className="p-6 md:p-8">
-          <div className="flex items-start gap-5 mb-6">
-            <div className={`w-20 h-20 ${course.bgColor || 'bg-blue-50'} rounded-2xl flex items-center justify-center p-2 flex-shrink-0`}
-              style={{ border: '1px solid rgba(58,54,219,0.15)' }}>
-              <img src={course.icon} alt={course.title} className="w-12 h-12 object-contain" />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-2xl md:text-3xl font-extrabold text-gray-800">{course.title}</h2>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {[course.category, `⏱ ${course.duration}`, `📶 ${course.level}`].map((tag, i) => (
-                  <span key={i} className="text-xs font-semibold px-3 py-1 rounded-full"
-                    style={{ background: 'rgba(58,54,219,0.08)', color: '#3A36DB' }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors text-xl">
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-
-          <div className="mb-6">
-            <h3 className="text-base font-bold text-gray-800 mb-2 flex items-center gap-2">
-              <i className="fas fa-info-circle" style={{ color: '#3A36DB' }}></i> About this Course
-            </h3>
-            <p className="text-gray-600 leading-relaxed text-sm">{course.description}</p>
-          </div>
-
-          <div className="mb-6">
-            <h3 className="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <i className="fas fa-list-check" style={{ color: '#3A36DB' }}></i> Course Syllabus
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {course.syllabus.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-gray-600 rounded-lg px-3 py-2 text-sm"
-                  style={{ background: 'rgba(58,54,219,0.05)', border: '1px solid rgba(58,54,219,0.1)' }}>
-                  <i className="fas fa-check-circle text-xs" style={{ color: '#3A36DB' }}></i>
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 mb-6 p-4 rounded-xl"
-            style={{ background: 'linear-gradient(135deg, rgba(12,9,80,0.03), rgba(58,54,219,0.06))' }}>
-            {[
-              { icon: 'fas fa-users', val: `${course.students}+`, label: 'Students Enrolled' },
-              { icon: 'fas fa-calendar-alt', val: course.duration, label: 'Duration' },
-              { icon: 'fas fa-certificate', val: 'Certified', label: 'On Completion' },
-            ].map((s, i) => (
-              <div key={i} className="text-center">
-                <i className={`${s.icon} text-lg mb-1`} style={{ color: '#3A36DB' }}></i>
-                <p className="text-xl font-bold text-gray-800">{s.val}</p>
-                <p className="text-xs text-gray-500">{s.label}</p>
-              </div>
-            ))}
-          </div>
-
-          <Link to="/contactSection">
-            <div className="flex gap-3">
-              <button
-                className="flex-1 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm transition-all"
-                style={{ background: 'linear-gradient(135deg, #0C0950, #3A36DB)', boxShadow: '0 6px 20px rgba(58,54,219,0.3)' }}
-              >
-                <i className="fas fa-graduation-cap"></i> Enroll Now
-              </button>
-              <button
-                onClick={onClose}
-                className="px-6 py-3 rounded-xl font-semibold text-sm transition-all"
-                style={{ border: '2px solid rgba(58,54,219,0.25)', color: '#3A36DB' }}
-              >
-                Close
-              </button>
-            </div>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // ─── Infinite Marquee ─────────────────────────────────────────────────────────
 const InfiniteMarquee = ({ courses, onOpenDetail }) => {
@@ -248,7 +185,7 @@ const InfiniteMarquee = ({ courses, onOpenDetail }) => {
 
       <div
         ref={trackRef}
-        className="flex gap-6"        /* ← gap-5 → gap-6 to match larger cards */
+        className="flex gap-6"
         style={{
           width: 'max-content',
           animation: `arcMarquee ${courses.length * 4}s linear infinite`,
@@ -376,9 +313,6 @@ const CourseShowcase = () => {
             </div>
           </Link>
         </div>
-
-        {/* Modal */}
-        <CourseDetailModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
       </section>
     </>
   );

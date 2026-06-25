@@ -41,6 +41,8 @@ const CoursesSection = () => {
     { id: 11, slug: "busy", title: "Busy", duration: "1 Month", category: "Tools", icon: "https://www.altisinfonet.com/wp-content/themes/altisinfonet/assets/images/solution_image/management_7185495.svg", color: "from-blue-600 to-blue-800", bgColor: "bg-blue-50", level: "Intermediate", students: 450 },
     { id: 12, slug: "tally-prime", title: "Tally Prime", duration: "3 Months", category: "Accounting", icon: "https://compcraft.in/wp-content/uploads/2024/06/7090080-removebg-preview.png", color: "from-blue-600 to-blue-800", bgColor: "bg-blue-50", level: "Intermediate", students: 1850 },
     { id: 13, slug: "ccc", title: "CCC", duration: "4 Months", category: "General", icon: "https://cdn-icons-png.flaticon.com/256/2436/2436874.png", color: "from-blue-600 to-blue-800", bgColor: "bg-blue-50", level: "Beginner", students: 980 },
+    { id: 14, slug: "full-stack-development", title: "Full Stack Development", duration: "9 Months", category: "Web", icon: "https://image.pngaaa.com/519/4835519-middle.png", color: "from-blue-600 to-blue-800", bgColor: "bg-blue-50", level: "Beginner", students: 980 },
+
   ], []);
 
   const categories = useMemo(() => ["All Courses", ...new Set(courses.map(c => c.category))], [courses]);

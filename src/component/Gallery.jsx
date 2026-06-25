@@ -1,3 +1,4 @@
+// gallery.jsx
 "use client";
 
 import React, { useState, useRef } from "react";
@@ -42,20 +43,20 @@ const MediaGallery = () => {
   const [selectedMedia, setSelectedMedia] = useState(null);
 
   const galleryItems = [
-    { id: 1, type: "image", category: "campus", url: "/mo1.jpeg", cols: "md:col-span-2", title: "Main Campus", description: "State-of-the-art building" },
-    { id: 2, type: "image", category: "workshop", url: "/img50.jpeg", cols: "md:col-span-1", title: "Web Dev Workshop", description: "Students building React projects" },
-    { id: 4, type: "image", category: "awards", url: "/img52.jpeg", cols: "md:col-span-1", title: "Annual Awards", description: "Celebrating student achievements" },
-    { id: 5, type: "image", category: "campus", url: "/img53.jpeg", cols: "md:col-span-1", title: "Student Lounge", description: "Relaxation area" },
-    { id: 3, type: "image", category: "workshop", url: "/img51.jpeg", cols: "md:col-span-1", title: "Coding Session", description: "Hands-on practice" },
-    { id: 6, type: "image", category: "workshop", url: "/img54.jpeg", cols: "md:col-span-2", title: "Hackathon", description: "24-hour coding competition" },
-    { id: 7, type: "image", category: "lab", url: "/img55.jpeg", cols: "md:col-span-1", title: "Networking Lab", description: "Cybersecurity training" },
-    { id: 8, type: "image", category: "awards", url: "/img56.jpeg", cols: "md:col-span-1", title: "Industry Partners", description: "Collaboration with tech leaders" },
-    { id: 9, type: "image", category: "lab", url: "/lab.jpeg", cols: "md:col-span-1", title: "Hardware Lab", description: "Practical sessions" },
-    { id: 10, type: "image", category: "lab", url: "lab.jpg", cols: "md:col-span-1", title: "Robotics Lab", description: "Innovation hub" },
-    { id: 11, type: "image", category: "lab", url: "1 (645).jpg", cols: "md:col-span-1", title: "AI Lab", description: "Advanced computing" },
-    { id: 12, type: "image", category: "campus", url: "cam.jpg", cols: "md:col-span-1", title: "Campus View", description: "Greenery & infrastructure" },
-    { id: 13, type: "image", category: "awards", url: "/ab.JPEG", cols: "md:col-span-1", title: "Award Ceremony", description: "Recognizing excellence" },
-    { id: 14, type: "image", category: "awards", url: "/ab1.jpeg", cols: "md:col-span-1", title: "Scholarship Event", description: "Merit-based awards" },
+    { id: 1, type: "image", category: "campus", url: "/mo1.jpeg", cols: "md:col-span-2", title: "Main Campus – Best Computer Institute", description: "State-of-the-art building in Mukundpur, Delhi" },
+    { id: 2, type: "image", category: "workshop", url: "/img50.jpeg", cols: "md:col-span-1", title: "Web Dev Workshop – Computer Classes", description: "Students building React projects, coding session" },
+    { id: 4, type: "image", category: "awards", url: "/img52.jpeg", cols: "md:col-span-1", title: "Annual Awards – Computer Course After 12th", description: "Celebrating student achievements, scholarship event" },
+    { id: 5, type: "image", category: "campus", url: "/img53.jpeg", cols: "md:col-span-1", title: "Student Lounge – Computer Coaching", description: "Relaxation area, digital skills training" },
+    { id: 3, type: "image", category: "workshop", url: "/img51.jpeg", cols: "md:col-span-1", title: "Coding Session – Best Computer Classes", description: "Hands-on practice, job-oriented courses" },
+    { id: 6, type: "image", category: "workshop", url: "/img54.jpeg", cols: "md:col-span-2", title: "Hackathon – IT Course Near Me", description: "24-hour coding competition, skill development" },
+    { id: 7, type: "image", category: "lab", url: "/img55.jpeg", cols: "md:col-span-1", title: "Networking Lab – Computer Training", description: "Cybersecurity training, advanced computer lab" },
+    { id: 8, type: "image", category: "awards", url: "/img56.jpeg", cols: "md:col-span-1", title: "Industry Partners – Best Institute", description: "Collaboration with tech leaders, placement support" },
+    { id: 9, type: "image", category: "lab", url: "/lab.jpeg", cols: "md:col-span-1", title: "Hardware Lab – Computer Course", description: "Practical sessions, computer diploma course" },
+    { id: 10, type: "image", category: "lab", url: "lab.jpg", cols: "md:col-span-1", title: "Robotics Lab – Innovation Hub", description: "Advanced computing, AI lab, future tech" },
+    { id: 11, type: "image", category: "lab", url: "1 (645).jpg", cols: "md:col-span-1", title: "AI Lab – Advanced Computing", description: "Machine learning, data science training" },
+    { id: 12, type: "image", category: "campus", url: "cam.jpg", cols: "md:col-span-1", title: "Campus View – Greenery & Infrastructure", description: "Best computer institute in Delhi, Mukundpur" },
+    { id: 13, type: "image", category: "awards", url: "/ab.JPEG", cols: "md:col-span-1", title: "Award Ceremony – Recognizing Excellence", description: "Computer course certificate, merit-based awards" },
+    { id: 14, type: "image", category: "awards", url: "/ab1.jpeg", cols: "md:col-span-1", title: "Scholarship Event – Tally Course", description: "GST and Tally course, financial training" },
   ];
 
   const filters = [
@@ -109,7 +110,7 @@ const MediaGallery = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto" ref={ref}>
-          {/* Section Header */}
+          {/* Section Header with SEO keywords */}
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -118,12 +119,17 @@ const MediaGallery = () => {
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0C0950] to-[#3A36DB]">
-                ARC Gallery
+                ARC Gallery – Best Computer Institute
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore life at our institute through student activities, workshops, and facilities
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <span className="font-semibold">Computer Classes Near Me | Best Computer Institute in Mukundpur & Delhi</span><br />
+              Explore campus life, workshops, awards, labs – <span className="text-indigo-700">Computer course after 10th, after 12th, Tally course, job-oriented training, affordable fees.</span>
             </p>
+            {/* Hidden SEO keywords for crawlers */}
+            <div className="sr-only">
+              Computer coaching near me, computer training institute, basic computer course, tally classes near me, computer learning center, certificate computer course, skill development course, IT course near me, computer diploma, short term computer course, summer computer training, digital skills, government approved computer course, learn computer from scratch, computer skills training, computer course for job, computer institute admission open, computer classes for beginners, professional computer course, career computer courses, computer typing course, advanced computer training, best institute for Tally, GST and Tally course, office management course, computer course for girls, computer course for boys, affordable computer classes, computer course ki fees, computer seekhne ki class, computer institute Delhi, computer course certificate, computer class admission open, computer course after 12th pass, computer course after 10th pass.
+            </div>
           </motion.div>
 
           {/* Animated Filters */}
@@ -181,7 +187,7 @@ const MediaGallery = () => {
                   >
                     <img
                       src={item.url}
-                      alt={item.title}
+                      alt={item.title + " – Computer Institute Mukundpur"}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
                     />
@@ -248,7 +254,7 @@ const MediaGallery = () => {
                 <div className="relative">
                   <img
                     src={selectedMedia.url}
-                    alt={selectedMedia.title}
+                    alt={selectedMedia.title + " – Computer Training Institute Delhi"}
                     className="w-full max-h-[75vh] object-contain bg-gray-100"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">

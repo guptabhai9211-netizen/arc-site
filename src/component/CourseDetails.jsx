@@ -54,7 +54,7 @@ const mockCourses = [
     level: "Beginner",
     icon: "FaLaptopCode",
     category: "General",
-    image: "https://images.pexels.com/photos/392018/pexels-photo-392018.jpeg",
+    image: "/basic.png",
     content: `Segment 1st:
 • What is Computer, Types of Computers
 • Hardware Components, Importance of Computer Education
@@ -82,7 +82,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaPaintBrush",
     category: "Design",
-    image: "https://images.pexels.com/photos/2422286/pexels-photo-2422286.jpeg",
+    image: "/Design.png",
     content: `This course includes:
 • Photoshop
 • Corel Draw
@@ -99,7 +99,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaCode",
     category: "Web",
-    image: "https://images.pexels.com/photos/943096/pexels-photo-943096.jpeg",
+    image: "/webdesigning.png",
     content: `This course includes:
 • HTML, DHTML, CSS
 • JavaScript, Core Python`,
@@ -114,7 +114,7 @@ Segment 3rd:
     level: "Advanced",
     icon: "FaChartBar",
     category: "Accounting",
-    image: "https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg",
+    image: "/CAAD.png",
     content: `Course includes:
 • Basic Computer (MS Word, Excel, PowerPoint, Internet)
 • Photoshop, Corel Draw
@@ -135,7 +135,7 @@ Segment 3rd:
     level: "Beginner",
     icon: "FaMoneyBillWave",
     category: "Accounting",
-    image: "https://images.pexels.com/photos/4974914/pexels-photo-4974914.jpeg",
+    image: "/CCA.png",
     content: `Course covers:
 • Basic Computer Operations
 • Tally Prime Accounting Software`,
@@ -153,7 +153,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaTrophy",
     category: "Accounting",
-    image: "https://images.pexels.com/photos/1181216/pexels-photo-1181216.jpeg",
+    image: "/ACA.png",
     content: `Course includes:
 • Basic Computer Skills
 • Tally Prime
@@ -175,7 +175,7 @@ Segment 3rd:
     level: "Advanced",
     icon: "FaGraduationCap",
     category: "Diploma",
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=300&h=200&fit=crop",
+    image: "/ADCA.png",
     content: `Course includes:
 • Basic Computer (MS Office, Internet)
 • Graphic Designing (Photoshop, Corel Draw)
@@ -202,7 +202,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaSearch",
     category: "Marketing",
-    image: "https://images.pexels.com/photos/4134784/pexels-photo-4134784.jpeg",
+    image: "/Digitalmarketing.png",
     content: `Course covers:
 • SEO, SMO, Content Marketing
 • PPC Advertising
@@ -225,7 +225,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaPython",
     category: "Programming",
-    image: "https://images.pexels.com/photos/3183202/pexels-photo-3183202.jpeg",
+    image: "/python.png",
     content: `Course includes:
 • Python Introduction
 • Data Types & Functions
@@ -249,7 +249,7 @@ Segment 3rd:
     level: "Advanced",
     icon: "FaTable",
     category: "Tools",
-    image: "https://images.pexels.com/photos/925786/pexels-photo-925786.jpeg",
+    image: "/excel.jpeg",
     content: `Course covers:
 • Pivot Tables
 • Dashboards
@@ -271,7 +271,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaCalculator",
     category: "Tools",
-    image: "https://images.pexels.com/photos/3183202/pexels-photo-3183202.jpeg",
+    image: "/Busy.png",
     content: `Course includes:
 • Accounting Operations
 • Inventory Management
@@ -291,7 +291,7 @@ Segment 3rd:
     level: "Intermediate",
     icon: "FaClipboardList",
     category: "Accounting",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
+    image: "/Tally.png",
     content: `Course covers:
 • Company Creation
 • Vouchers & Ledgers
@@ -320,7 +320,7 @@ Segment 3rd:
     level: "Beginner",
     icon: "FaNetworkWired",
     category: "General",
-    image: "https://images.pexels.com/photos/927022/pexels-photo-927022.jpeg",
+    image: "/basic.png",
     content: `Course includes:
 • Operating Systems
 • Word Processing
@@ -337,7 +337,54 @@ Segment 3rd:
       "Internet Basics",
       "Networking Concepts"
     ]
-  }
+  },
+  {
+    id: 14,
+    slug: "full-stack-development",
+    title: "Full Stack Development",
+    description: "Comprehensive training in full stack web development from frontend to deployment.",
+    duration: "9 Months",
+    level: "Beginner",
+    icon: "FaNetworkWired",
+    category: "Web",
+    image: "/fullstack.png",
+    content: `Course Overview
+
+Segment 1st: Frontend Fundamentals
+• HTML5 & Semantic Structure
+• CSS3 Styling & Responsive Design
+• Bootstrap & Tailwind CSS for Modern UI
+• Animations & Transitions for Interactivity
+
+Segment 2nd: JavaScript & Frontend Frameworks
+• JavaScript ES6+ Features
+• DOM Manipulation & Event Handling
+• React.js Fundamentals (Components, Props, State, Hooks)
+• Advanced React.js (Routing, Context API, Performance Optimization)
+
+Segment 3rd: Backend & Database
+• Node.js & Express.js Server-Side Development
+• RESTful API Design & Authentication
+• MongoDB Database Design & CRUD Operations
+• Integration of Frontend & Backend
+
+Segment 4th: Deployment & Career Skills
+• Git & GitHub for Version Control
+• Deployment on Platforms (Vercel, Netlify, Heroku)
+• Resume Building & LinkedIn Optimization for Developers
+• Project Showcase: Full Stack Application`,
+    syllabus: [
+      "HTML5, CSS3, Responsive Design",
+      "Tailwind CSS & Bootstrap",
+      "JavaScript ES6+ & DOM",
+      "React.js Fundamentals & Advanced Concepts",
+      "Node.js & Express.js",
+      "MongoDB & Database Integration",
+      "Git, GitHub & Deployment",
+      "Resume & LinkedIn Optimization"
+    ]
+}
+   
 ];
 
 // Smooth Scroll Helper Function
