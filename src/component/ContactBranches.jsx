@@ -80,33 +80,6 @@ export function ContactBranches() {
                     </p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 text-blue-600">
-                    <FaLaptop />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800">Courses Offered</h4>
-                    <ul className="text-gray-600 list-disc list-inside">
-                       <ul>
-  <li>Basic Computer</li>
-  <li>Graphic Designing</li>
-  <li>Web Designing</li>
-  <li>CAAD (Certificate in Advanced Accounting & Designing)</li>
-  <li>CCA (Certificate in Computer Accounting)</li>
-  <li>ACA (Advanced Certificate in Accounting)</li>
-  <li>ADCA (Advanced Diploma in Computer Application)</li>
-  <li>Digital Marketing</li>
-  <li>Python</li>
-  <li>Advanced Excel</li>
-  <li>Busy</li>
-  <li>Tally Prime</li>
-  <li>CCC (Course on Computer Concept)</li>
-</ul>
-
-                    </ul>
-                  </div>
-                </div>
               </div>
 
               <div className="mt-8">
@@ -181,32 +154,7 @@ export function ContactBranches() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 text-blue-600">
-                    <FaChalkboardTeacher />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800">Courses Offered</h4>
-                    <ul className="text-gray-600 list-disc list-inside">
-                       <ul>
-  <li>Basic Computer</li>
-  <li>Graphic Designing</li>
-  <li>Web Designing</li>
-  <li>CAAD (Certificate in Advanced Accounting & Designing)</li>
-  <li>CCA (Certificate in Computer Accounting)</li>
-  <li>ACA (Advanced Certificate in Accounting)</li>
-  <li>ADCA (Advanced Diploma in Computer Application)</li>
-  <li>Digital Marketing</li>
-  <li>Python</li>
-  <li>Advanced Excel</li>
-  <li>Busy</li>
-  <li>Tally Prime</li>
-  <li>CCC (Course on Computer Concept)</li>
-</ul>
-
-                    </ul>
-                  </div>
-                </div>
+                
               </div>
 
               <div className="mt-8">

@@ -39,14 +39,13 @@ const WhyChooseUs = () => {
     if (isInView) {
       const duration = 2000;
       const step = 20;
-      const targets = { students: 9000, placement: 95, partners: 10, rating: 4.8 };
+      const targets = { placement: 95, partners: 10, rating: 4.8 };
       const startTime = performance.now();
-      
+
       const animate = (now) => {
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / duration);
         setCounts({
-          students: Math.floor(targets.students * progress),
           placement: Math.floor(targets.placement * progress),
           partners: Math.floor(targets.partners * progress),
           rating: (targets.rating * progress).toFixed(1)
@@ -264,32 +263,7 @@ const WhyChooseUs = () => {
             })}
           </motion.div>
 
-          {/* Stats Section with Animated Counters */}
-          <motion.div
-            className="mt-20 bg-gradient-to-r from-[#0C0950] to-[#3A36DB] rounded-2xl p-8 md:p-12 text-white shadow-2xl"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
-                <div className="text-4xl font-bold mb-2">{counts.students.toLocaleString()}+</div>
-                <div className="text-sm opacity-80">Students Trained</div>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
-                <div className="text-4xl font-bold mb-2">{counts.placement}%</div>
-                <div className="text-sm opacity-80">Placement Rate</div>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
-                <div className="text-4xl font-bold mb-2">{counts.partners}+</div>
-                <div className="text-sm opacity-80">Hiring Partners</div>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400 }}>
-                <div className="text-4xl font-bold mb-2">{counts.rating}/5</div>
-                <div className="text-sm opacity-80">Student Satisfaction</div>
-              </motion.div>
-            </div>
-          </motion.div>
+          
 
           {/* CTA Button with Glow Effect */}
           <motion.div

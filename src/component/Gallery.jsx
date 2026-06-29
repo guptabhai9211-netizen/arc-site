@@ -143,11 +143,10 @@ const MediaGallery = () => {
               <motion.button
                 key={filter.id}
                 onClick={() => setActiveFilter(filter.id)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm ${
-                  activeFilter === filter.id
-                    ? "bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white shadow-md"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
-                }`}
+                className={`${activeFilter === filter.id
+                  ? "bg-gradient-to-r from-[#0C0950] to-[#3A36DB] text-white shadow-md"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"}
+                px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm`}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, x: -20 }}

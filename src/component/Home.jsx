@@ -17,8 +17,8 @@ const HomeSection = () => {
     <>
       <HeroSection/>
       <div>
-        
-        
+        {/* CoursesSection hidden as per request */}
+        {/* <CoursesSection /> */}
         {/* ✅ Course Showcase - Hero ke baad aur CoursesSection ke baad */}
         <CourseShowcase />
         <WhyChooseUs />

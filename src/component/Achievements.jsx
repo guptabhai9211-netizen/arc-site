@@ -11,18 +11,6 @@ const AchievementsSection = () => {
 
   const stats = [
     {
-      id: 1,
-      icon: (
-        <svg className="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      ),
-      value: 15000,
-      prefix: "+",
-      label: "Students Trained",
-      duration: 2.5
-    },
-    {
       id: 2,
       icon: (
         <svg className="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -65,9 +53,9 @@ const AchievementsSection = () => {
     <>
       <Helmet>
         <title>Our Achievements | ARC Institute - Leading IT Training in Delhi</title>
-        <meta name="description" content="10000+ students trained, 98% placement record, 50+ expert trainers - Discover why ARC Institute is Delhi's premier IT training center with proven results." />
+        <meta name="description" content="98% placement record, 50+ expert trainers - Discover why ARC Institute is Delhi's premier IT training center with proven results." />
         <meta property="og:title" content="ARC Institute Achievements | Delhi's Top IT Training Results" />
-        <meta property="og:description" content="With 10000+ successful students and 98% placement rate, ARC Institute delivers exceptional IT education outcomes in Delhi." />
+        <meta property="og:description" content="With 98% placement rate and 50+ expert trainers, ARC Institute delivers exceptional IT education outcomes in Delhi." />
         <meta property="og:url" content="https://www.arcinstitute.in/achievements" />
       </Helmet>
 

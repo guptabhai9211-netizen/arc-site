@@ -31,7 +31,7 @@ const AnimatedCounter = ({ from = 0, to, duration = 2 }) => {
   return <span ref={ref}>{count}</span>;
 };
 
-export function InstituteTimeline() {
+export default function InstituteTimeline() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,

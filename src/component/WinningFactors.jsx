@@ -177,14 +177,15 @@ const AdvantageSection = () => {
               key={advantage.id}
               className={`group relative p-6 rounded-2xl bg-gradient-to-b ${advantage.bgGradient} border ${advantage.borderColor} shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden`}
               variants={itemVariants}
-              whileHover={{ 
+              whileHover={{
                 y: -8,
                 scale: 1.02,
+                boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)",
                 transition: { duration: 0.3 }
               }}
             >
               {/* Gradient hover overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${advantage.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-br ${advantage.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
               
               {/* Top accent bar */}
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${advantage.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}></div>
